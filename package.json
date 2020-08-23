@@ -1,0 +1,43 @@
+{
+  "name": "@scaffold/react-app-template",
+  "version": "0.7.0",
+  "description": "",
+  "engines": {
+    "node": ">=8"
+  },
+  "main": "index.js",
+  "scripts": {
+    "test": "jest",
+    "lint": "eslint --ext .js ./src ",
+    "dev": "scaffold-cli-service dev",
+    "build": "scaffold-cli-service build",
+    "analyzer": "scaffold-cli-service analyzer",
+    "pre-commit": "npm run test"
+  },
+  "browerslist": [
+    "not ie < 9",
+    ">1%",
+    "last 4 versions",
+    "Firefox ESR"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Objectivezt/dva-react-webpack-boilerplate.git"
+  },
+  "author": "Objectivezt",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Objectivezt/dva-react-webpack-boilerplate/issues"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm run pre-commit",
+      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
+    }
+  },
+  "homepage": "https://github.com/Objectivezt/dva-react-webpack-boilerplate#readme",
+  "dependencies": {
+    "@scaffold/cli-service": "^0.7.1",
+    "@scaffold/core": "^0.1.1"
+  }
+}
