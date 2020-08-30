@@ -3,11 +3,13 @@ import dva from 'dva';
 import createLoading from 'dva-loading';
 import { createHashHistory as createHistory } from 'history';
 import 'antd/dist/antd.less';
-import '@styles/index.module.less';
+import 'moment/locale/zh-cn';
+import '@styles/index.module.less'; // @change => @scaffold/middle-service/src/styles/index.module.less
+import '@styles/index.css'; // @change => @scaffold/middle-service/src/styles/index.css
 
 const App = ({ history }) => {
   const app = dva({
-    history: history || createHistory()
+    history: history || createHistory(),
   });
 
   app.use(createLoading());

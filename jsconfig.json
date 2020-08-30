@@ -6,7 +6,6 @@
     "allowSyntheticDefaultImports": true,
     "paths": {
       "@/*": ["./src/*"],
-      "globalUI/*": ["./src/common/globalUI/*"],
       "@assets/*": ["./src/assets/*"],
       "@common/*": ["./src/common/*"],
       "@components/*": ["./src/components/*"],
@@ -15,7 +14,10 @@
       "@models/*": ["./src/models/*"],
       "@services/*": ["./src/services/*"],
       "@styles/*": ["./src/styles/*"],
-      "@utils/*": ["./src/utils/*"]
+      "@utils/*": ["./src/utils/*"],
+      "globalUI/*": ["./src/common/globalUI/*"]
     }
-  }
+  },
+  "exclude": ["node_modules", "dist"],
+  "include": ["src/**/*"]
 }
