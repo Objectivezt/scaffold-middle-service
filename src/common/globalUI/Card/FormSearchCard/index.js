@@ -1,15 +1,15 @@
 /*
  * @Author: objectivezt
  * @Date: 2018-09-05 17:40:26
- * @Last Modified by:   objectivezt
- * @Last Modified time: 2020-08-04 17:40:26
+ * @Last Modified by: objectivezt
+ * @Last Modified time: 2020-09-05 20:59:44
  */
 import React, { Component } from 'react';
 import { globalCardProps } from '@common/config';
 import { Card, Icon, Button } from 'antd';
 import { connect } from 'dva';
 import PropTypes from 'prop-types';
-import styles from './index.module';
+import styles from './index.module.less';
 
 /**
  * @description 用于查询的带高级查询CRUD页面
@@ -106,7 +106,7 @@ export default class FormSearchCard extends Component {
             {title}
           </>
         }
-        extra={'1'}
+        extra={this.createExtra()}
         style={{
           marginBottom: '20px',
           minHeight: '140px'
