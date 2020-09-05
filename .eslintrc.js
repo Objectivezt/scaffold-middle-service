@@ -1,3 +1,9 @@
+/*
+ * @Author: objectivezt
+ * @Date: 2019-09-05 17:33:17
+ * @Last Modified by:   objectivezt
+ * @Last Modified time: 2020-08-04 17:33:17
+ */
 module.exports = {
   extends: [
     'airbnb',

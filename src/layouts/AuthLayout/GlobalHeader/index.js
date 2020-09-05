@@ -1,3 +1,9 @@
+/*
+ * @Author: objectivezt
+ * @Date: 2018-09-05 17:36:19
+ * @Last Modified by:   objectivezt
+ * @Last Modified time: 2020-08-04 17:36:19
+ */
 import React, { PureComponent } from 'react';
 import { Avatar, Dropdown, Icon, Layout, Menu, Tooltip, Spin } from 'antd';
 import { projectName } from '@common/config';

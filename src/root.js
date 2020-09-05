@@ -1,3 +1,9 @@
+/*
+ * @Author: objectivezt
+ * @Date: 2018-09-05 17:33:42
+ * @Last Modified by:   objectivezt
+ * @Last Modified time: 2020-08-04 17:33:42
+ */
 import React from 'react';
 import dva from 'dva';
 import createLoading from 'dva-loading';
@@ -9,7 +15,7 @@ import '@styles/index.css'; // @change => @scaffold/middle-service/src/styles/in
 
 const App = ({ history }) => {
   const app = dva({
-    history: history || createHistory(),
+    history: history || createHistory()
   });
 
   app.use(createLoading());

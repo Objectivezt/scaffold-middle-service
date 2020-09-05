@@ -1,3 +1,9 @@
+/*
+ * @Author: objectivezt
+ * @Date: 2019-09-05 17:32:18
+ * @Last Modified by:   objectivezt
+ * @Last Modified time: 2020-08-04 17:32:18
+ */
 module.exports = {
   extends: ['@commitlint/config-conventional'],
   rules: {
@@ -14,8 +20,8 @@ module.exports = {
         'perf', // 优化相关，比如提升性能、体验
         'chore', // 构建过程或辅助工具的变动
         'revert', // 回滚
-        'upgrade' // 升级第三方库
-      ]
-    ]
-  }
+        'upgrade', // 升级第三方库
+      ],
+    ],
+  },
 };

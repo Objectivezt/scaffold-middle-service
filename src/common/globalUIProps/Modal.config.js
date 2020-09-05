@@ -1,3 +1,9 @@
+/*
+ * @Author: objectivezt
+ * @Date: 2018-09-05 17:39:49
+ * @Last Modified by:   objectivezt
+ * @Last Modified time: 2020-08-04 17:39:49
+ */
 export default {
   width: 1024,
   // footer: null, // 取消默认底部按钮

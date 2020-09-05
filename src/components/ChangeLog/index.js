@@ -1,3 +1,9 @@
+/*
+ * @Author: objectivezt
+ * @Date: 2018-09-05 17:39:10
+ * @Last Modified by:   objectivezt
+ * @Last Modified time: 2020-08-04 17:39:10
+ */
 import React, { Component, Fragment } from 'react';
 import { Timeline, Card } from 'antd';
 import { globalCardProps } from '@common/config';
@@ -9,15 +15,15 @@ const codeStyle = {
   padding: '.2em .4em',
   fontSize: '.9em',
   border: '1px solid #eee',
-  borderRadius: '3px',
+  borderRadius: '3px'
 };
 const codeCNStyle = {
   ...codeStyle,
-  fontFamily: 'sens-serif',
+  fontFamily: 'sens-serif'
 };
 const h2Style = {
   fontWeight: '500',
-  clear: 'both',
+  clear: 'both'
 };
 
 const data = [
@@ -27,28 +33,28 @@ const data = [
     finishList: [
       {
         option: 'update',
-        desc: '修改',
-      },
-    ],
-  },
+        desc: '修改'
+      }
+    ]
+  }
 ];
 const iconType = {
   insert: {
     icon: '❤️',
-    text: '新增',
+    text: '新增'
   },
   update: {
     icon: '🖌️',
-    text: '修改',
+    text: '修改'
   },
   fixed: {
     icon: '🐛',
-    text: '修复',
+    text: '修复'
   },
   delete: {
     icon: '🚮',
-    text: '移除',
-  },
+    text: '移除'
+  }
 };
 
 export default class ChangeLog extends Component {

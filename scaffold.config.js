@@ -1,3 +1,9 @@
+/*
+ * @Author: objectivezt
+ * @Date: 2019-09-05 17:30:55
+ * @Last Modified by: objectivezt
+ * @Last Modified time: 2020-08-04 17:31:45
+ */
 const path = require('path');
 const theme = require('./src/common/theme');
 
@@ -6,9 +12,17 @@ const proxyObj = {
     target: 'http://objectivezt.com/',
     changeOrigin: true,
     pathRewrite: {
-      '^/': ''
-    }
-  }
+      '^/': '',
+    },
+    ˆ,
+  },
+  proxySpringCloud: {
+    target: 'http://api.objectivezt.com/',
+    changeOrigin: true,
+    pathRewrite: {
+      '^/': '',
+    },
+  },
 };
 
 // 代理 URL
@@ -37,19 +51,21 @@ const aliasConfigData = {
   '@services': 'src/services/',
   '@styles': 'src/styles/',
   '@utils': 'src/utils/',
-  '@setting': 'src/setting/'
+  '@setting': 'src/setting/',
 };
 
 module.exports = {
   theme,
   proxy: {
-    '/api': proxyUrl
+    '/api': proxyUrl,
+    '/zuul/api': proxyUrl,
+    '/auth': proxyUrl,
   },
   resolve: {
     alias: aliasFactoryFn(aliasConfigData, path, __dirname),
     extensions: ['.js', 'json', '.jsx', 'ts', 'tsx'],
-    modules: ['node_modules', 'src']
+    modules: ['node_modules', 'src'],
   },
   aliasFactory: aliasFactoryFn,
-  aliasConfig: aliasConfigData
+  aliasConfig: aliasConfigData,
 };

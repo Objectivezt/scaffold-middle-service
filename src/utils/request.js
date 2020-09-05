@@ -1,3 +1,9 @@
+/*
+ * @Author: objectivezt
+ * @Date: 2018-09-05 17:34:21
+ * @Last Modified by:   objectivezt
+ * @Last Modified time: 2020-08-04 17:34:21
+ */
 import fetch from 'dva/fetch';
 import { notification } from 'antd';
 import { baseUrl, noContextUrl } from '@common/config';

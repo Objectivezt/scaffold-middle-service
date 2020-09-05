@@ -1,3 +1,9 @@
+/*
+ * @Author: objectivezt
+ * @Date: 2018-09-05 17:40:08
+ * @Last Modified by: objectivezt
+ * @Last Modified time: 2020-09-05 17:41:35
+ */
 import * as React from 'react'
 import { Table } from 'antd'
 import * as GlobalConfig from '@common/config'

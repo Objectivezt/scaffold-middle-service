@@ -1,3 +1,9 @@
+/*
+ * @Author: objectivezt
+ * @Date: 2020-09-05 17:34:11
+ * @Last Modified by: objectivezt
+ * @Last Modified time: 2020-09-05 17:42:26
+ */
 interface Person {
   firstName: string;
   lastName: string;

@@ -1,3 +1,9 @@
+/*
+ * @Author: objectivezt
+ * @Date: 2018-09-05 17:39:28
+ * @Last Modified by:   objectivezt
+ * @Last Modified time: 2020-08-04 17:39:28
+ */
 export { default as baseRouterUrl } from './baseRouterUrl';
 
 export { default as localMenu } from './localMenu';

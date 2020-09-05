@@ -1,3 +1,9 @@
+/*
+ * @Author: objectivezt
+ * @Date: 2018-09-05 17:35:08
+ * @Last Modified by:   objectivezt
+ * @Last Modified time: 2020-08-04 17:35:08
+ */
 import { queryMenus, queryCurrentUser } from '@services/systems/userServices';
 import { localMenuData, localMenuDataArr } from '@common/config';
 import { message } from 'antd';

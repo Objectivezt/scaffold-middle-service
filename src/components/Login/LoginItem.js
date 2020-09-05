@@ -1,3 +1,9 @@
+/*
+ * @Author: objectivezt
+ * @Date: 2018-09-05 17:37:34
+ * @Last Modified by:   objectivezt
+ * @Last Modified time: 2020-08-04 17:37:34
+ */
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Form, Button, Row, Col } from 'antd';
@@ -77,8 +83,7 @@ function generator({ defaultProps, defaultRules, type }) {
                     disabled={count}
                     className={styles.getCaptcha}
                     size="large"
-                    onClick={this.onGetCaptcha}
-                  >
+                    onClick={this.onGetCaptcha}>
                     {count ? `${count} s` : '获取验证码'}
                   </Button>
                 </Col>

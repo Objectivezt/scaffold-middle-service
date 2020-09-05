@@ -1,3 +1,9 @@
+/*
+ * @Author: objectivezt
+ * @Date: 2018-09-05 17:35:13
+ * @Last Modified by:   objectivezt
+ * @Last Modified time: 2020-08-04 17:35:13
+ */
 import { message } from 'antd';
 import { routerRedux } from 'dva/router';
 import { login, queryPublicKey, queryCaptchaImage } from '@services/systems/loginService';

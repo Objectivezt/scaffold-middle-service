@@ -1,3 +1,9 @@
+/*
+ * @Author: objectivezt
+ * @Date: 2018-09-05 17:40:26
+ * @Last Modified by:   objectivezt
+ * @Last Modified time: 2020-08-04 17:40:26
+ */
 import React, { Component } from 'react';
 import { globalCardProps } from '@common/config';
 import { Card, Icon, Button } from 'antd';
@@ -24,7 +30,7 @@ export default class FormSearchCard extends Component {
     mode: PropTypes.string,
     noAdvanced: PropTypes.any,
     isFilterCollapse: PropTypes.bool,
-    extra: PropTypes.any,
+    extra: PropTypes.any
   };
 
   static defaultProps = {
@@ -33,13 +39,13 @@ export default class FormSearchCard extends Component {
     mode: 'noSearch',
     noAdvanced: false,
     isFilterCollapse: false,
-    extra: null,
+    extra: null
   };
 
   constructor(props) {
     super(props);
     this.state = {
-      isFilterCollapse: props.isFilterCollapse || false,
+      isFilterCollapse: props.isFilterCollapse || false
     };
   }
 
@@ -53,11 +59,11 @@ export default class FormSearchCard extends Component {
   filterCollapse = () => {
     const { isFilterCollapse } = this.state;
     this.setState({
-      isFilterCollapse: !isFilterCollapse,
+      isFilterCollapse: !isFilterCollapse
     });
     this.props.dispatch({
       type: 'globalModel/handleFormCardExpend',
-      payloadExpend: !isFilterCollapse,
+      payloadExpend: !isFilterCollapse
     });
   };
 
@@ -103,7 +109,7 @@ export default class FormSearchCard extends Component {
         extra={'1'}
         style={{
           marginBottom: '20px',
-          minHeight: '140px',
+          minHeight: '140px'
         }}>
         {children}
       </Card>
