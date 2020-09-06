@@ -1,8 +1,8 @@
 /*
  * @Author: objectivezt
  * @Date: 2018-09-05 17:39:28
- * @Last Modified by:   objectivezt
- * @Last Modified time: 2020-08-04 17:39:28
+ * @Last Modified by: objectivezt
+ * @Last Modified time: 2020-09-06 16:53:34
  */
 export { default as baseRouterUrl } from './baseRouterUrl';
 
@@ -24,6 +24,8 @@ export { default as globalInputNumberProps } from './globalUIProps/InputNumber.c
 export { default as globalModalProps } from './globalUIProps/Modal.config';
 
 export { default as globalRangePickerProps } from './globalUIProps/RangePicker.config';
+
+export const globalDateFormat = 'YYYY-MM-DD';
 
 export const globalFormItemLayout = {
   labelCol: {
@@ -81,6 +83,11 @@ export const queryLayout = {
   'screen-xl': {
     minWidth: 1200
   }
+};
+
+export const globalFormItemBox = {
+  style: { width: '85%' },
+  placeholder: '请输入'
 };
 
 const isLocalMenu = process.env.NODE_ENV === 'development';
