@@ -56,6 +56,9 @@ export default class FormSearchCard extends Component {
     }
   }
 
+  /**
+   * @description 高级搜索切换
+   */
   filterCollapse = () => {
     const { isFilterCollapse } = this.state;
     this.setState({
@@ -67,6 +70,9 @@ export default class FormSearchCard extends Component {
     });
   };
 
+  /**
+   * @description 构建高级搜索
+   */
   createAdvanced = () => {
     const { isFilterCollapse } = this.state;
     return (
@@ -79,6 +85,9 @@ export default class FormSearchCard extends Component {
     );
   };
 
+  /**
+   * @description 构造左上脚自定义内容
+   */
   createExtra = () => {
     const { extra, mode, noAdvanced } = this.props;
     if (noAdvanced) {
