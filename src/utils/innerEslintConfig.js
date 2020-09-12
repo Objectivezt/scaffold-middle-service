@@ -4,7 +4,7 @@
  * @Last Modified by:   objectivezt
  * @Last Modified time: 2020-08-04 17:33:17
  */
-export default {
+module.exports = {
   env: {
     browser: true,
     node: true,
@@ -13,14 +13,7 @@ export default {
     jest: true,
     jasmine: true
   },
-  extends: [
-    'airbnb',
-    'airbnb-typescript',
-    'prettier',
-    'prettier/react',
-    'prettier/@typescript-eslint',
-    'plugin:prettier/recommended'
-  ],
+  extends: ['airbnb', 'prettier', 'prettier/react', 'plugin:prettier/recommended'],
   parser: 'babel-eslint',
   parserOptions: {
     ecmaFeatures: {
@@ -29,7 +22,6 @@ export default {
     }
   },
   plugins: [
-    '@typescript-eslint',
     'eslint-comments',
     'jest',
     'unicorn',
@@ -45,23 +37,8 @@ export default {
   },
   rules: {
     // ===================== use same as @umi/fabric config ====================================
-    '@typescript-eslint/explicit-function-return-type': [
-      'off',
-      { allowTypedFunctionExpressions: true }
-    ],
-    '@typescript-eslint/explicit-member-accessibility': 0,
-    '@typescript-eslint/dot-notation': 0,
-    '@typescript-eslint/interface-name-prefix': 0,
-    '@typescript-eslint/no-non-null-assertion': 0,
-    '@typescript-eslint/no-use-before-define': [
-      'error',
-      { functions: false, classes: true, variables: true, typedefs: true }
-    ],
-    '@typescript-eslint/no-var-requires': 0,
-    '@typescript-eslint/no-implied-eval': 0,
-    '@typescript-eslint/no-throw-literal': 0,
     'arrow-body-style': ['error', 'as-needed'],
-    'arrow-parens': 1,
+    'arrow-parens': 0,
     'eslint-comments/no-unlimited-disable': 1,
     'function-paren-newline': 0,
     'generator-star-spacing': 0,
@@ -70,21 +47,7 @@ export default {
     'import/extensions': 0,
     'import/no-cycle': 0,
     'import/no-default-export': [0, 'camel-case'],
-    'import/no-extraneous-dependencies': [
-      2,
-      {
-        optionalDependencies: true,
-        devDependencies: [
-          '**/tests/**.{ts,js,jsx,tsx}',
-          '**/_test_/**.{ts,js,jsx,tsx}',
-          '/mock/**/**.{ts,js,jsx,tsx}',
-          '**/**.test.{ts,js,jsx,tsx}',
-          '**/_mock.{ts,js,jsx,tsx}',
-          '**/example/**.{ts,js,jsx,tsx}',
-          '**/examples/**.{ts,js,jsx,tsx}'
-        ]
-      }
-    ],
+    'import/no-extraneous-dependencies': 0,
     'import/no-unresolved': [
       2,
       {
@@ -134,13 +97,13 @@ export default {
     'array-callback-return': 1,
     'import/no-dynamic-require': 1,
     'no-else-return': 1,
-    'no-extra-boolean-cast': 1,
-    'no-useless-escape': 1,
     'no-plusplus': 1,
+    'no-underscore-dangle': 1,
+    'no-useless-escape': 1,
     'react/jsx-fragments': 1,
     'react/no-array-index-key': 1,
 
-    //========================@scaffold/cli-service==============================
+    // ========================@scaffold/cli-service==============================
     'no-extra-boolean-cast': 0,
     'prettier/prettier': 2,
     'react/display-name': 0,

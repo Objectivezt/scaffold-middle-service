@@ -49,7 +49,7 @@ export default class FormSearchCard extends Component {
     };
   }
 
-  UNSAFE_componentWillReceiveProps(nextProps) {
+  componentWillReceiveProps(nextProps) {
     const { isFilterCollapse } = this.state;
     if (nextProps.isFilterCollapse !== isFilterCollapse) {
       this.setState({ isFilterCollapse: nextProps.isFilterCollapse });

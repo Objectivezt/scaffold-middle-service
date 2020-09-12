@@ -5,7 +5,7 @@
  * @Last Modified time: 2020-09-06 10:53:07
  */
 
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { Pagination } from 'antd';
 import { globalPaginationProps } from '@common/config';
@@ -16,8 +16,10 @@ import { globalPaginationProps } from '@common/config';
  * @param {Number} pageSize 分页大小
  * @param {Number} pageNum 当前页码
  * @param {Function} changeTablePage 分页改变
+ * @extends {PureComponent}
+ * @class GlobalPagination
  */
-export default class GlobalPagination extends Component {
+export default class GlobalPagination extends PureComponent {
   static propTypes = {
     total: PropTypes.number,
     pageSize: PropTypes.number,
@@ -29,7 +31,7 @@ export default class GlobalPagination extends Component {
     total: 0,
     pageSize: 0,
     pageNum: 0,
-    changeTablePae: () => {}
+    changeTablePage: () => {}
   };
 
   render() {

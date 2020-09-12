@@ -5,7 +5,7 @@
  * @Last Modified time: 2020-09-06 16:46:52
  */
 
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { Button } from 'antd';
 
@@ -13,9 +13,10 @@ const ButtonGroup = Button.Group;
 
 /**
  * @description 全局使用的按钮组
+ * @extends {PureComponent}
  * @param { Array } buttonList {type:string, clickFn: function, key: string}
  */
-export default class GlobalButtonGroup extends Component {
+export default class GlobalButtonGroup extends PureComponent {
   static propTypes = {
     buttonList: PropTypes.array
   };
@@ -25,14 +26,14 @@ export default class GlobalButtonGroup extends Component {
   };
 
   render() {
-    const { list } = this.props;
+    const { buttonList } = this.props;
     return (
       <ButtonGroup>
-        {list.map(({ name, type, clickFn }) => {
+        {buttonList.map(({ name, type, clickFn }) => (
           <Button type={type} onClick={clickFn} key={name}>
             {name}
-          </Button>;
-        })}
+          </Button>
+        ))}
       </ButtonGroup>
     );
   }

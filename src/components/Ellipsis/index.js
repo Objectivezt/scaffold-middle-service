@@ -14,12 +14,12 @@ import styles from './index.less';
 
 const isSupportLineClamp = document.body.style.webkitLineClamp !== undefined;
 
-const EllipsisText = ({ text, length, tooltip, ...other }) => {
+const EllipsisText = ({ text, length, tooltip }) => {
   if (typeof text !== 'string') {
     throw new Error('Ellipsis children must be string.');
   }
   if (text.length <= length || length < 0) {
-    return <span {...other}>{text}</span>;
+    return <span>{text}</span>;
   }
   const tail = '...';
   let displayText;
@@ -41,7 +41,7 @@ const EllipsisText = ({ text, length, tooltip, ...other }) => {
   }
 
   return (
-    <span {...other}>
+    <span>
       {displayText}
       {tail}
     </span>
@@ -132,41 +132,36 @@ export default class Ellipsis extends Component {
     return this.bisection(th, mid, begin, end, text, shadowNode);
   };
 
-  handleRoot = n => {
+  handleRoot = (n) => {
     this.root = n;
   };
 
-  handleContent = n => {
+  handleContent = (n) => {
     this.content = n;
   };
 
-  handleNode = n => {
+  handleNode = (n) => {
     this.node = n;
   };
 
-  handleShadow = n => {
+  handleShadow = (n) => {
     this.shadow = n;
   };
 
-  handleShadowChildren = n => {
+  handleShadowChildren = (n) => {
     this.shadowChildren = n;
   };
 
   render() {
     const { text, targetCount } = this.state;
-    const { children, lines, length, className, tooltip, ...restProps } = this.props;
-
+    const { children, lines, length, className, tooltip } = this.props;
     const cls = classNames(styles.ellipsis, className, {
       [styles.lines]: lines && !isSupportLineClamp,
       [styles.lineClamp]: lines && isSupportLineClamp
     });
 
     if (!lines && !length) {
-      return (
-        <span className={cls} {...restProps}>
-          {children}
-        </span>
-      );
+      return <span className={cls}>{children}</span>;
     }
 
     // length

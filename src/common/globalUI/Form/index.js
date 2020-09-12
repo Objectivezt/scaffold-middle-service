@@ -13,7 +13,7 @@ import moment from 'moment';
 
 const FormItem = Form.Item;
 const { Option } = Select;
-const { RangePicker } = DatePicker;
+const { RangePicker, MonthPicker } = DatePicker;
 const localFormItemLayout = {
   labelCol: { span: 24 },
   wrapperCol: { span: 24 }
@@ -47,6 +47,7 @@ const localColProps = {
  *    Item @param { ReactNode } component 自定义组件
  *    Item @param { Object } payloadObj 传参
  *    Item @param { Boolean } required 校验展示
+ *    Item @param { Function } customizeCallBack 自定义组件回调函数
  * @eg formItemArray: [
    @——————————{
    @————————————formType: 'input',
@@ -148,7 +149,7 @@ export default class GlobalForm extends Component {
     this.props.onRefGlobalRef(this);
   }
 
-  UNSAFE_componentWillReceiveProps(nextProps) {
+  componentWillReceiveProps(nextProps) {
     const { isFilterCollapse } = this.props;
     if (nextProps.isFilterCollapse !== isFilterCollapse) {
       this.setState({
@@ -160,7 +161,7 @@ export default class GlobalForm extends Component {
   getFormData = () => {
     const formData = {};
     const { form, formItemArray } = this.props;
-    formItemArray.forEach(({ formType, keyName, keyStart, keyEnd }, index, array) => {
+    formItemArray.forEach(({ formType, keyName, keyStart, keyEnd }) => {
       if (formType === 'input') {
         formData[keyName] = this.trimFormItem(form.getFieldValue(keyName));
       } else if (formType === 'select' && formType === 'customize') {
@@ -171,10 +172,14 @@ export default class GlobalForm extends Component {
           formData[keyStart] = moment(tempDate[0]).format(globalDateFormat);
           formData[keyEnd] = moment(tempDate[1]).format(globalDateFormat);
         }
-      } else if (formType === 'datePicker') {
+      } else if (formType === 'datePicker' || formType === 'monthPicker') {
+        const typeFormat = {
+          datePicker: globalDateFormat,
+          monthPicker: 'YYYY-MM'
+        };
         const tempDate = form.getFieldValue(keyName) || null;
         if (tempDate) {
-          formData[keyName] = moment(tempDate).format(globalDateFormat);
+          formData[keyName] = moment(tempDate).format(typeFormat[formType]);
         }
       }
     });
@@ -185,7 +190,7 @@ export default class GlobalForm extends Component {
    * @description 删除输入的空白
    * @param {String} value
    */
-  trimFormItem = value => (value ? String(name).trim() : '');
+  trimFormItem = value => (value ? String(value).trim() : '');
 
   /**
    * @description 清空所有已输入的form数据
@@ -243,8 +248,24 @@ export default class GlobalForm extends Component {
     return false;
   };
 
+  /**
+   * @description 时间可选事件
+   * @param {*} e 默认事件
+   * @param { String } keyName formItem 标示
+   */
+  customizeCallBack = (e, keyName) => {
+    const { formItemArray } = this.props;
+    const tempArray = formItemArray.filter(item => item.keyName === keyName);
+    if (tempArray && tempArray.length) {
+      const { customizeCallBack } = tempArray[0];
+      if (customizeCallBack && typeof customizeCallBack === 'function') {
+        customizeCallBack(e);
+      }
+    }
+  };
+
   render() {
-    const { form, formItemArray, buttonList, spanNumber } = this.props;
+    const { form, formItemArray, buttonArray, spanNumber } = this.props;
     const { isFilterCollapse } = this.state;
     const { getFieldDecorator } = form;
     const FormItemContainers = (
@@ -261,6 +282,7 @@ export default class GlobalForm extends Component {
             placeholder = '',
             component: Comp,
             payloadObj,
+            disabled = false,
             required = false
           }) => {
             let formItemComponent;
@@ -273,7 +295,7 @@ export default class GlobalForm extends Component {
                   required={required}>
                   {getFieldDecorator(`${keyName}`, {
                     initialValue: initialValue || undefined
-                  })(<Input placeholder={placeholder} />)}
+                  })(<Input placeholder={placeholder} disabled={disabled} />)}
                 </FormItem>
               );
             } else if (formType === 'select') {
@@ -287,6 +309,7 @@ export default class GlobalForm extends Component {
                     initialValue: initialValue || undefined
                   })(
                     <Select
+                      disabled={disabled}
                       {...globalSelectProps}
                       onChange={e => this.onSelectChange(e, `${keyName}`)}
                       style={{ width: '100%' }}>
@@ -311,7 +334,13 @@ export default class GlobalForm extends Component {
                   required={required}>
                   {getFieldDecorator(`${keyName}`, {
                     initialValue: initialValue || undefined
-                  })(<RangePicker format={globalDateFormat} style={{ width: '100%' }} />)}
+                  })(
+                    <RangePicker
+                      disabled={disabled}
+                      format={globalDateFormat}
+                      style={{ width: '100%' }}
+                    />
+                  )}
                 </FormItem>
               );
             } else if (formType === 'datePicker') {
@@ -326,7 +355,27 @@ export default class GlobalForm extends Component {
                   })(
                     <DatePicker
                       style={{ width: '100%' }}
+                      disabled={disabled}
                       format={globalDateFormat}
+                      disabledDate={e => this.disableDate(e, `${keyName}`)}
+                    />
+                  )}
+                </FormItem>
+              );
+            } else if (formType === 'monthPicker') {
+              formItemComponent = (
+                <FormItem
+                  {...localFormItemLayout}
+                  {...globalFormItemBox}
+                  label={labelName}
+                  required={required}>
+                  {getFieldDecorator(`${keyName}`, {
+                    initialValue: initialValue || undefined
+                  })(
+                    <MonthPicker
+                      style={{ width: '100%' }}
+                      disabled={disabled}
+                      format="YYYY-MM"
                       disabledDate={e => this.disableDate(e, `${keyName}`)}
                     />
                   )}
@@ -341,7 +390,13 @@ export default class GlobalForm extends Component {
                   required={required}>
                   {getFieldDecorator(`${keyName}`, {
                     initialValue: initialValue || undefined
-                  })(<Comp payloadObj={payloadObj} style={{ width: '100%' }} />)}
+                  })(
+                    <Comp
+                      payloadObj={payloadObj}
+                      style={{ width: '100%' }}
+                      onChange={e => this.customizeCallBack(e, keyName)}
+                    />
+                  )}
                 </FormItem>
               );
             }

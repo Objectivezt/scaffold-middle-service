@@ -32,35 +32,39 @@ import { globalPaginationProps, globalTableProps } from '@common/config';
  */
 export default class GlobalTable extends Component {
   static propTypes = {
-    that: PropsTypes.object,
+    basePageRequest: PropTypes.func,
     columns: PropTypes.array,
-    resList: PropTypes.array,
-    rowKey: PropTypes.string,
-    loading: PropTypes.bool,
-    scrollX: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
-    resTotal: PropTypes.number,
-    useRefMethod: PropTypes.func,
-    onTableRef: PropTypes.func,
+    expandedRowRender: PropTypes.oneOfType(PropTypes.func, PropTypes.any),
     filterObj: PropTypes.object,
+    footer: PropTypes.oneOfType(PropTypes.func, PropTypes.any),
     isResetPage: PropTypes.bool,
-    footer: PropTypes.string,
-    expendedRowRender: PropTypes.string
+    loading: PropTypes.bool,
+    onTableRef: PropTypes.func,
+    pagination: PropTypes.bool,
+    resList: PropTypes.array,
+    resTotal: PropTypes.number,
+    rowKey: PropTypes.string,
+    scrollX: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+    that: PropTypes.object,
+    useRefMethod: PropTypes.func
   };
 
   static defaultProps = {
-    that: null,
+    basePageRequest: () => {},
     columns: [],
-    resList: [],
-    rowKey: '',
-    loading: false,
-    scrollX: 'max-content',
-    resTotal: 0,
-    useRefMethod: () => {},
-    onTableRef: () => {},
+    expandedRowRender: null,
     filterObj: {},
-    isResetPage: false,
     footer: () => {},
-    expandedRowRender: () => {}
+    isResetPage: false,
+    loading: false,
+    onTableRef: () => {},
+    pagination: true,
+    resList: [],
+    resTotal: 0,
+    rowKey: '',
+    scrollX: 'max-content',
+    that: null,
+    useRefMethod: () => {}
   };
 
   constructor(props) {

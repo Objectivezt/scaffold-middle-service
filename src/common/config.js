@@ -4,9 +4,6 @@
  * @Last Modified by: objectivezt
  * @Last Modified time: 2020-09-06 16:53:34
  */
-export { default as baseRouterUrl } from './baseRouterUrl';
-
-export { default as localMenu } from './localMenu';
 
 // 默认组件属性
 export { default as globalCardProps } from './globalUIProps/Card.config';
@@ -90,14 +87,36 @@ export const globalFormItemBox = {
   placeholder: '请输入'
 };
 
-const isLocalMenu = process.env.NODE_ENV === 'development';
+export const globalRequire = {
+  colon: true,
+  required: true
+};
 
-export const projectName = 'DRWB';
+// FormItem 检验配置
+export const globalFormRule = [
+  {
+    required: true,
+    message: '请输入'
+  }
+];
 
-export const baseUrl = '/';
-
-export const localMenuData = isLocalMenu;
-
+// 无需context的url
 export const noContextUrl = [];
 
-export { default as localMenuDataArr } from './localMenu';
+// 开启本地菜单
+export const localDevData = process.env.NODE_ENV !== 'production';
+
+// 基础请求
+export const baseUrl = '/';
+
+// 项目名称
+export const projectName = '中间服务基础包';
+
+// 路由白名单
+export { default as baseRouterUrl } from './baseRouterUrl';
+
+// 本地菜单
+export { default as localMenu } from '@common/localMenu';
+
+// 本地按钮
+export { default as localButton } from '@common/localMenu'; // 使用别名将导入引用项目的文件

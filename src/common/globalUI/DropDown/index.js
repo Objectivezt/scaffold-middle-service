@@ -7,8 +7,23 @@
 
 import React, { PureComponent } from 'react';
 import { Dropdown } from 'antd';
+import PropTypes from 'prop-types';
 
+/**
+ * @description 全局下拉菜单
+ * @param {*} children
+ * @extends {PureComponent}
+ * @class GlobalDropDown
+ */
 class GlobalDropDown extends PureComponent {
+  static propTypes = {
+    children: PropTypes.any
+  };
+
+  static defaultProps = {
+    children: ''
+  };
+
   render() {
     return (
       <Dropdown {...this.props} placement="bottomLeft">

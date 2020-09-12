@@ -5,7 +5,7 @@
  * @Last Modified time: 2020-09-06 10:28:06
  */
 
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import { Modal } from 'antd';
 import PropTypes from 'prop-types';
 import { globalModalProps } from '@common/config';
@@ -19,8 +19,10 @@ import { globalModalProps } from '@common/config';
  * @param {Function} onOk 确认事件
  * @param {Function} onCancel 取消事件
  * @param {*} footer 底部自定义区间
+ * @extends {PureComponent}
+ * @class GlobalModal
  */
-export default class GlobalModal extends Component {
+export default class GlobalModal extends PureComponent {
   static propTypes = {
     children: PropTypes.any,
     visible: PropTypes.bool,

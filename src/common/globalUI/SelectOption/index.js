@@ -5,7 +5,7 @@
  * @Last Modified time: 2020-09-06 16:08:05
  */
 
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { Select } from 'antd';
 
@@ -17,7 +17,7 @@ const { Option } = Select;
  * @param { String } keyName 键名称
  * @param { String } valueName 值名称
  */
-export default class SelectOption extends Component {
+export default class SelectOption extends PureComponent {
   static propTypes = {
     list: PropTypes.array,
     keyName: PropTypes.string,
@@ -34,7 +34,7 @@ export default class SelectOption extends Component {
     const { list, keyName, valueName } = this.props;
     return (
       <>
-        {list.map(item => (
+        {list.map((item) => (
           <Option key={item[keyName]} title={item[valueName]} value={item[keyName]}>
             {item[valueName]}
           </Option>

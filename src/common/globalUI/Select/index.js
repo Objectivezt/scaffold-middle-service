@@ -13,10 +13,9 @@ import SelectOption from '../SelectOption';
 
 /**
  * @description 全局GlobalSelect
- * @param { String } value 当前select值
  * @param { Function } onChange 默认变更触发方法
- * @param { String } valueName select list 的值名
- * @param { String } keyName select list 的键名
+ * @param { String } showName select list 的值名
+ * @param { String } valueName select list 的键名
  * @param { String } placeholder 默认提示
  * @param { String } width 长度
  * @param { Array } list 可选项
@@ -24,10 +23,9 @@ import SelectOption from '../SelectOption';
  */
 export default class GlobalSelect extends Component {
   static propTypes = {
-    value: PropTypes.string,
     onChange: PropTypes.func,
+    showName: PropTypes.string,
     valueName: PropTypes.string,
-    keyName: PropTypes.string,
     placeholder: PropTypes.string,
     width: PropTypes.string,
     list: PropTypes.array,
@@ -35,10 +33,9 @@ export default class GlobalSelect extends Component {
   };
 
   static defaultProps = {
-    value: '',
     onChange: () => {},
+    showName: '',
     valueName: '',
-    keyName: '',
     placeholder: '',
     width: '',
     list: [],
@@ -60,12 +57,21 @@ export default class GlobalSelect extends Component {
     }
   }
 
+  /**
+   * @description 默认监听事件
+   * @param {*} value
+   */
   onChange = value => {
     this.triggerChange(value);
     this.setState({ value });
   };
 
+  /**
+   * @description 触发器
+   * @param {*} changeValue
+   */
   triggerChange = changeValue => {
+    const { onChange, onFunction } = this.props;
     onChange(changeValue);
     onFunction();
   };
@@ -77,7 +83,7 @@ export default class GlobalSelect extends Component {
       placeholder = '请输入或选择',
       width = globalSelectProps.style.width,
       list = [],
-      keyName,
+      showName,
       valueName
     } = this.props;
     return (
@@ -89,7 +95,7 @@ export default class GlobalSelect extends Component {
         disabled={disabled}
         placeholder={placeholder}
         style={{ width }}>
-        <SelectOption list={list} keyName={keyName} valueName={valueName} />
+        <SelectOption list={list} keyName={valueName} valueName={showName} />
       </Select>
     );
   }
