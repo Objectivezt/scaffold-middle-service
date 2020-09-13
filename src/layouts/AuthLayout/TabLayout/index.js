@@ -1,8 +1,8 @@
 /*
  * @Author: objectivezt
  * @Date: 2018-09-05 17:35:48
- * @Last Modified by:   objectivezt
- * @Last Modified time: 2020-08-04 17:35:48
+ * @Last Modified by: objectivezt
+ * @Last Modified time: 2020-09-13 18:02:43
  */
 import React from 'react';
 import PropTypes from 'prop-types';
@@ -14,6 +14,19 @@ import styles from './index.module.less';
 
 const { TabPane } = Tabs;
 
+/**
+ * @description 公共页签组件
+ * @param {Object} history router history
+ * @param {String} name
+ * @param {String} keys
+ * @param {*} component
+ * @param {Object} location
+ * @param {Array} whiteRouter
+ * @param {Function} dispatch
+ * @param {Object} match
+ * @class TabLayout
+ * @extend {Component}
+ */
 export default class TabLayout extends React.Component {
   static propTypes = {
     history: PropTypes.object,
@@ -22,7 +35,6 @@ export default class TabLayout extends React.Component {
     component: PropTypes.any,
     location: PropTypes.object,
     whiteRouter: PropTypes.array,
-    noPermission: PropTypes.object,
     dispatch: PropTypes.func,
     match: PropTypes.object
   };
@@ -34,7 +46,6 @@ export default class TabLayout extends React.Component {
     component: <div>loading</div>,
     location: {},
     whiteRouter: [],
-    noPermission: {},
     dispatch: () => {},
     match: {}
   };
@@ -55,21 +66,10 @@ export default class TabLayout extends React.Component {
           iconType: 'close-circle',
           key: 'closeOther'
         }
-        // {
-        //   name: '刷新页面',
-        //   iconType: 'reload',
-        //   key: 'reload'
-        // },
-        // {
-        //   name: '收藏页面',
-        //   iconType: 'star',
-        //   key: 'star'
-        // }
       ]
     };
   }
 
-  // eslint-disable-next-line react/no-deprecated
   componentWillMount() {
     const { name, keys, component } = this.props;
     if (keys === '/' || !name) {
@@ -81,20 +81,19 @@ export default class TabLayout extends React.Component {
     this.setState({ panes, activeKey });
   }
 
-  // eslint-disable-next-line react/no-deprecated
   componentWillReceiveProps(nextProps) {
-    const { location, whiteRouter, noPermission, name, keys, component } = nextProps;
-    if (!isInArray(whiteRouter, location.pathname)) {
-      // eslint-disable-next-line no-shadow
-      const { keys = '/auth/exception/403', component } = noPermission;
-      // eslint-disable-next-line react/no-access-state-in-setstate
-      const { panes } = this.state;
-      if (panes.length > 0) {
-        panes[panes.length - 1].component = component;
-        panes[panes.length - 1].name = name;
-        panes[panes.length - 1].key = keys;
+    const { location, whiteRouter, name, keys, component, routerData, multiPage } = nextProps;
+    if (!isInArray(whiteRouter, location.pathname) && !multiPage) {
+      const { keys: key = '/auth/exception/403', component: noAuthComponent } = routerData[
+        '/auth/exception/403'
+      ];
+      const { panes: tempPanes } = this.state;
+      if (tempPanes.length > 0) {
+        tempPanes[tempPanes.length - 1].component = noAuthComponent;
+        tempPanes[tempPanes.length - 1].name = name;
+        tempPanes[tempPanes.length - 1].key = key;
       }
-      this.setState({ panes, activeKey: keys });
+      this.setState({ panes: tempPanes, activeKey: key });
       return;
     }
     if (keys === '/' || !name) {
@@ -103,8 +102,7 @@ export default class TabLayout extends React.Component {
     const { panes } = this.state;
     const activeKey = keys;
     let isExist = false;
-    // eslint-disable-next-line no-plusplus
-    for (let i = 0; i < panes.length; i++) {
+    for (let i = 0; i < panes.length; i += 1) {
       if (panes[i].key === activeKey) {
         isExist = true;
         break;
@@ -135,34 +133,34 @@ export default class TabLayout extends React.Component {
 
   // 关闭当前窗口
   remove = targetKey => {
-    if (this.state.panes.length === 1) {
+    let { activeKey } = this.state;
+    const { panes } = this.state;
+    if (panes.length === 1) {
       message.warning('窗口不能全部关闭');
       return;
     }
-    let { activeKey } = this.state;
     let lastIndex;
-    this.state.panes.forEach((pane, i) => {
+    panes.forEach((pane, i) => {
       if (pane.key === targetKey) {
         lastIndex = i - 1;
       }
     });
-    // eslint-disable-next-line react/no-access-state-in-setstate
-    const panes = this.state.panes.filter(pane => pane.key !== targetKey);
+    const tempPanes = panes.filter(pane => pane.key !== targetKey);
     if (lastIndex >= 0 && activeKey === targetKey) {
-      activeKey = panes[lastIndex].key;
+      activeKey = tempPanes[lastIndex].key;
     }
-    this.setState({ panes, activeKey });
+    this.setState({ panes: tempPanes, activeKey });
   };
 
   // 关闭其他窗口
   removeOther = targetKey => {
-    if (this.state.panes.length === 1) {
+    const { panes } = this.state;
+    if (panes.length === 1) {
       message.warning('窗口不能全部关闭');
       return;
     }
-    // eslint-disable-next-line react/no-access-state-in-setstate
-    const panes = this.state.panes.filter(pane => pane.key === targetKey);
-    this.setState({ panes });
+    const tempPanes = panes.filter(pane => pane.key === targetKey);
+    this.setState({ panes: tempPanes });
   };
 
   onMenuClick = ({ key }, pathname) => {

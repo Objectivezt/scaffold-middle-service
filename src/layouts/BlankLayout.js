@@ -1,17 +1,25 @@
 /*
  * @Author: objectivezt
  * @Date: 2018-09-05 17:35:19
- * @Last Modified by:   objectivezt
- * @Last Modified time: 2020-08-04 17:35:19
+ * @Last Modified by: objectivezt
+ * @Last Modified time: 2020-09-13 19:34:43
  */
 import React from 'react';
 import { Spin } from 'antd';
 import PropTypes from 'prop-types';
 
 class BlankLayout extends React.Component {
+  static propTypes = {
+    history: PropTypes.object
+  };
+
+  static defaultProps = {
+    history: {}
+  };
+
   componentDidMount() {
     this.props.history.push({
-      pathname: '/auth'
+      pathname: '/auth/app'
     });
   }
 
@@ -30,13 +38,5 @@ class BlankLayout extends React.Component {
     );
   }
 }
-
-BlankLayout.defaultProps = {
-  history: {}
-};
-
-BlankLayout.propTypes = {
-  history: PropTypes.object
-};
 
 export default BlankLayout;
