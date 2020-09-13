@@ -1,0 +1,50 @@
+/*
+ * @Author: objectivezt
+ * @Date: 2020-09-13 16:20:17
+ * @Last Modified by: objectivezt
+ * @Last Modified time: 2020-09-13 16:25:39
+ */
+
+ .mainFn(){
+   background: #fff;
+   padding: 75px 40px 45px 80px;
+   border-radius: 4px;
+   .desc {
+     font-size: 24px;
+     letter-spacing: 15px;
+   }
+   .title{
+     font-size: 48px;
+   }
+   .divider{
+     font-size: 48px;
+     font-weight: 600;
+   }
+ }
+
+ .dynamicImageFn(){
+   width: 470px;
+   height: 361px;
+   position: absolute;
+   right: 10px;
+   bottom: 10px;
+ }
+
+ .main{
+   .mainFn();
+   min-height: 510px;
+ }
+
+ .dynamicImage{
+   .dynamicImageFn();
+ }
+
+ @media (min-width: 1920px){
+  .main{
+    .mainFn();
+    min-height:825px;
+  }
+  .dynamicImage{
+    .dynamicImageFn();
+  }
+ }

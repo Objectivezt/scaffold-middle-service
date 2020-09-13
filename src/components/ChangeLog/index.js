@@ -2,9 +2,9 @@
  * @Author: objectivezt
  * @Date: 2018-09-05 17:39:10
  * @Last Modified by: objectivezt
- * @Last Modified time: 2020-09-13 15:51:25
+ * @Last Modified time: 2020-09-13 16:04:31
  */
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import { Timeline, Card } from 'antd';
 import { globalCardProps } from '@common/config';
 
