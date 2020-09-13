@@ -22,45 +22,28 @@ export { default as globalModalProps } from './globalUIProps/Modal.config';
 
 export { default as globalRangePickerProps } from './globalUIProps/RangePicker.config';
 
+// 日期
 export const globalDateFormat = 'YYYY-MM-DD';
 
+// 通用基础布局
 export const globalFormItemLayout = {
   labelCol: {
-    sm: {
-      span: 8
-    },
-    md: {
-      span: 8
-    },
-    lg: {
-      span: 6
-    },
-    xl: {
-      span: 6
-    },
-    xxl: {
-      span: 6
-    }
+    sm: { span: 10 },
+    md: { span: 10 },
+    lg: { span: 8 },
+    xl: { span: 10 },
+    xxl: { span: 10 }
   },
   wrapperCol: {
-    sm: {
-      span: 16
-    },
-    md: {
-      span: 16
-    },
-    lg: {
-      span: 18
-    },
-    xl: {
-      span: 18
-    },
-    xxl: {
-      span: 18
-    }
+    sm: { span: 14 },
+    md: { span: 14 },
+    lg: { span: 16 },
+    xl: { span: 14 },
+    xxl: { span: 14 }
   }
 };
 
+// 布局配置
 export const queryLayout = {
   'screen-xs': {
     maxWidth: 575
@@ -82,11 +65,31 @@ export const queryLayout = {
   }
 };
 
+// 基础分页请求
+export const globalDefineListSize = {
+  pageNum: 1,
+  pageSize: 10
+};
+
+// 配置最大分页请求
+export const globalCustomListSize = {
+  pageNum: 1,
+  pageSize: 200
+};
+
+// FormItem 表单基础配置
 export const globalFormItemBox = {
   style: { width: '85%' },
   placeholder: '请输入'
 };
 
+// Model 表单布局
+export const globalModalItemLayout = {
+  labelCol: { span: 6 },
+  wrapperCol: { span: 12 }
+};
+
+// FormItem 校验标示
 export const globalRequire = {
   colon: true,
   required: true

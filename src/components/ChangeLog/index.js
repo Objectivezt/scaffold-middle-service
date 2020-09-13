@@ -1,8 +1,8 @@
 /*
  * @Author: objectivezt
  * @Date: 2018-09-05 17:39:10
- * @Last Modified by:   objectivezt
- * @Last Modified time: 2020-08-04 17:39:10
+ * @Last Modified by: objectivezt
+ * @Last Modified time: 2020-09-13 15:51:25
  */
 import React, { Component, Fragment } from 'react';
 import { Timeline, Card } from 'antd';
@@ -87,15 +87,15 @@ export default class ChangeLog extends Component {
 
   render() {
     return (
-      <Fragment>
+      <>
         <Card {...globalCardProps} style={{ marginTop: 20 }}>
           <Timeline>
             {data.map(({ version, time, finishList }, index) => (
-              <Fragment>{this.CreateVersion(version, time, finishList, index)}</Fragment>
+              <>{this.CreateVersion(version, time, finishList, index)}</>
             ))}
           </Timeline>
         </Card>
-      </Fragment>
+      </>
     );
   }
 }

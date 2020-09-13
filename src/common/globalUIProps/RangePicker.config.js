@@ -6,5 +6,6 @@
  */
 export default {
   showTime: true,
-  allowClear: true
+  allowClear: true,
+  placeholder: ['开始时间', '结束时间']
 };

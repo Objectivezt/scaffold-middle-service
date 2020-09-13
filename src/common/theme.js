@@ -7,6 +7,7 @@
 module.exports = {
   'border-radius-base': '0px',
   'breadcrumb-font-size': '12px',
+  'btn-border-radius-base': '0px',
   'card-actions-background': '#f5f8fa',
   'card-head-background': 'rgba(255,255,255,1)',
   'card-head-color': '#000',
@@ -17,7 +18,7 @@ module.exports = {
   'form-item-margin-bottom': '8px',
   'icon-url': './iconfont-3.x',
   'layout-body-background': '#EDF1F6',
-  'layout-header-height': '40px',
+  'layout-header-height': '48px',
   'layout-trigger-color': '#fff',
   'menu-bg': '#fff',
   'menu-collapsed-width': '48px',
