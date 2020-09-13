@@ -1,18 +1,18 @@
 /*
  * @Author: objectivezt
  * @Date: 2018-09-05 17:36:23
- * @Last Modified by:   objectivezt
- * @Last Modified time: 2020-08-04 17:36:23
+ * @Last Modified by: objectivezt
+ * @Last Modified time: 2020-09-13 17:29:13
  */
 @import '~antd/lib/style/themes/default.less';
 
 .header {
   padding: 0 12px 0 0;
-  background: #060724;
+  background: #212c4e;
   box-shadow: 0 1px 4px rgba(0, 21, 41, 0.08);
   position: fixed;
-  // top: 0px;
-  z-index: 25;
+  z-index: 20;
+  line-height: 48px;
 }
 
 :global {
@@ -52,10 +52,9 @@ i.trigger {
   line-height: 40px;
   cursor: pointer;
   transition: all 0.3s, padding 0s;
-  padding: 0 14px;
+  padding: 0 18px;
   margin: 0 6px;
   color: #fff;
-
   &:hover {
     background: #fff;
     color: #1d1d29;
@@ -64,11 +63,12 @@ i.trigger {
 
 .right {
   float: right;
+  margin-right: 1%;
   height: 100%;
 
   .action {
     cursor: pointer;
-    padding: 0 30px;
+    padding: 0 12px;
     display: inline-block;
     transition: all 0.3s;
     height: 100%;
@@ -82,6 +82,7 @@ i.trigger {
     &:hover,
     &:global(.ant-popover-open) {
       background: @primary-1;
+      color: #000;
     }
   }
 
@@ -95,12 +96,7 @@ i.trigger {
   }
 
   .account {
-    .avatar {
-      margin: 0;
-      color: #fff;
-      background: hsla(0, 0%, 100%, 0.85);
-      vertical-align: middle;
-    }
+    color: #fff;
   }
 }
 
@@ -141,4 +137,16 @@ i.trigger {
 .avatarBox {
   float: right;
   height: 100%
+}
+
+.sliderSysDrawer{
+  :global(.ant-drawer-body){
+    padding: 0px !important;
+  }
+}
+
+.sliderBg {
+  height: 100vh;
+  background: #fff;
+  overflow:hidden;
 }
