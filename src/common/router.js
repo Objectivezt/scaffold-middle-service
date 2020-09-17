@@ -70,9 +70,7 @@ export const getRouterData = app => {
       )
     },
     '/user/login': {
-      component: dynamicWrapper(app, ['systems/loginModel'], () =>
-        import('@containers/Systems/Login')
-      )
+      component: dynamicWrapper(app, ['systems/loginModel'], () => import('@containers/Login'))
     },
 
     '/auth': {

@@ -5,9 +5,14 @@
  * @Last Modified time: 2020-08-04 17:34:16
  */
 
+import { Modal } from 'antd';
 import moment from 'moment';
 import { get, isArray, pick, isNaN, isFinite, trim } from 'lodash';
 
+/**
+ * @description 浏览器URL正则
+ */
+// eslint-disable-next-line
 const reg = /(((^https?:(?:\/\/)?)(?:[-;:&=\+\$,\w]+@)?[A-Za-z0-9.-]+|(?:www.|[-;:&=\+\$,\w]+@)[A-Za-z0-9.-]+)((?:\/[\+~%\/.\w-_]*)?\??(?:[-\+=&;%@.\w_]*)#?(?:[\w]*))?)$/g;
 
 /**
@@ -48,15 +53,15 @@ export const authRouterPass = (_this, path) => {
       return false;
     }
     return true;
-  } else if (!isInArray(tempMenuArr, history.location.pathname)) {
+  }
+  if (!isInArray(tempMenuArr, history.location.pathname)) {
     if (history.location.pathname === '/auth/exception/403') {
       return false;
     }
     history.push('/auth/exception/403');
     return false;
-  } else {
-    return false;
   }
+  return false;
 };
 
 /**
@@ -299,9 +304,8 @@ export const moneyExhibition = (value, dotNumber) => {
     const prefixString = Number(tempArray[0].toLocaleString());
     const suffixString = tempArray[1];
     return `${prefixString}.${suffixString}`;
-  } else {
-    return '0';
   }
+  return '0';
 };
 
 /**
@@ -574,7 +578,8 @@ export const getTimeDistance = type => {
     now.setMinutes(0);
     now.setSeconds(0);
     return [moment(now), moment(now.getTime() + (oneDay - 1000))];
-  } else if (type === 'week') {
+  }
+  if (type === 'week') {
     let day = now.getDay();
     now.setHours(0);
     now.setMinutes(0);
@@ -589,7 +594,8 @@ export const getTimeDistance = type => {
     const beginTime = now.getTime() - day * oneDay;
 
     return [moment(beginTime), moment(beginTime + (7 * oneDay - 1000))];
-  } else if (type === 'month') {
+  }
+  if (type === 'month') {
     const year = now.getFullYear();
     const month = now.getMonth();
     const nextDate = moment(now).add(1, 'months');
@@ -600,13 +606,13 @@ export const getTimeDistance = type => {
       moment(`${year}-${fixedZero(month + 1)}-01 00:00:00`),
       moment(moment(`${nextYear}-${fixedZero(nextMonth + 1)}-01 00:00:00`).valueOf() - 1000)
     ];
-  } else if (type === 'year') {
+  }
+  if (type === 'year') {
     const year = now.getFullYear();
 
     return [moment(`${year}-01-01 00:00:00`), moment(`${year}-12-31 23:59:59`)];
-  } else {
-    return [];
   }
+  return [];
 };
 
 /**
@@ -706,4 +712,8 @@ export const toDate = time => {
     date = `0${date}`;
   }
   return `${year}-${month}-${date}`;
+};
+
+export const onHref = () => {
+  // TODO
 };

@@ -7,7 +7,7 @@
 import * as React from 'react';
 import { Button } from 'antd';
 
-const { PureComponent, Fragment } = React;
+const { PureComponent } = React;
 
 interface Props {
   name: string;
@@ -34,10 +34,10 @@ export default class Hi extends PureComponent<Props, State> {
 
   render() {
     return (
-      <Fragment>
+      <>
         <p>你点击了 {this.state.count} 1111次</p>
         <Button onClick={this.sum}> {`Hi ${this.props.name}`}</Button>
-      </Fragment>
+      </>
     );
   }
 }

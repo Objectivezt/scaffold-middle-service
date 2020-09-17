@@ -208,3 +208,19 @@ export const createFormSearch = (title, CardExtra, FormItemComponents, ButtonCom
     </Form>
   </GlobalCard>
 );
+
+/**
+ * @description 登录确认
+ * @param {*} self 上虞哦传递到this
+ */
+export const showLogoutConfirm = self => {
+  Modal.confirm({
+    title: '未能检测到登录状态',
+    content: '您可能需要重新登录',
+    onOk: () => {
+      if (self) {
+        self.props.history.push({ pathname: '/user/login' });
+      }
+    }
+  });
+};

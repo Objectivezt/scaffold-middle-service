@@ -13,14 +13,14 @@ import { connect } from 'dva';
 import { queryLayout, baseRouterUrl, projectName } from '@common/config';
 import { Route, Switch, Redirect, Link } from 'dva/router';
 import {
-  AuthRouterPass,
+  authRouterPass,
   formatterMenu,
   getBashRedirect,
   getRoutes,
   isUrl,
-  showLogoutConfirm,
   isInArray
-} from '@utils/utils';
+} from '../../utils/utils.js';
+import { showLogoutConfirm } from '../../utils/utils.stateless.js';
 import NotFound from '../../containers/Exception/404';
 import logo from '../../assets/favicon.ico';
 import TabLayout from './TabLayout';
@@ -67,7 +67,7 @@ class AuthLayout extends React.PureComponent {
 
   componentWillReceiveProps() {
     if (this.state.firstRender) {
-      AuthRouterPass(this);
+      authRouterPass(this);
     }
   }
 

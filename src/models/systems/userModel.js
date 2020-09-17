@@ -5,7 +5,7 @@
  * @Last Modified time: 2020-08-04 17:35:08
  */
 import { queryMenus, queryCurrentUser } from '@services/systems/userServices';
-import { localMenuData, localMenuDataArr } from '@common/config';
+import { localDevData, localMenu } from '@common/config';
 import { message } from 'antd';
 
 export default {
@@ -18,11 +18,11 @@ export default {
   },
   effects: {
     *getMenuData(_, { call, put }) {
-      if (localMenuData) {
+      if (localDevData) {
         yield put({
           type: 'saveMenuData',
           payloadMenuData: {
-            menuData: localMenuDataArr,
+            menuData: localMenu,
             loadingLayoutMenu: false
           }
         });

@@ -10,8 +10,8 @@ import PropTypes from 'prop-types';
 import { projectName } from '@common/config';
 import logo from '@assets/logo.svg';
 import { createMenuItem } from '@utils/utils.stateless';
-import { onHref } from '@utils/utils';
 import appsConfig from '@/microAppsConfig';
+import { onHref } from '../../../utils/utils.js';
 import styles from './index.module.less';
 
 const { Item: MenuItem } = Menu;
