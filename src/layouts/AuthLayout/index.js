@@ -54,12 +54,12 @@ class AuthLayout extends React.PureComponent {
         if (userId) {
           this.getMenuData();
         } else {
-          history.push({ pathname: 'user/login' });
+          history.push({ pathname: '/user/login' });
           showLogoutConfirm();
         }
       })
       .catch(error => {
-        history.push({ pathname: 'user/login' });
+        history.push({ pathname: '/user/login' });
         window.console.warn(error);
         showLogoutConfirm();
       });
@@ -177,7 +177,7 @@ class AuthLayout extends React.PureComponent {
       location,
       match,
       routerData,
-      sliderWidth = false,
+      sliderWidth = 176,
       useBreadcrumb = false,
       userModel
     } = this.props;

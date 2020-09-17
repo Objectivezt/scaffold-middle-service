@@ -5,10 +5,10 @@
  * @Last Modified time: 2020-09-13 17:34:06
  */
 import React, { PureComponent } from 'react';
-import { Avatar, Dropdown, Icon, Layout, Menu, Tooltip, Spin, Drawer, Divider, Button } from 'antd';
+import { Dropdown, Icon, Layout, Menu, Spin, Drawer, Divider, Button } from 'antd';
 import PropTypes from 'prop-types';
 import { projectName } from '@common/config';
-import logo from '@assets/logo.svg';
+import logo from '@assets/logo.jpg';
 import { createMenuItem } from '@utils/utils.stateless';
 import appsConfig from '@/microAppsConfig';
 import { onHref } from '../../../utils/utils.js';
@@ -39,8 +39,8 @@ export default class GlobalHeader extends PureComponent {
   };
 
   static defaultProps = {
-    collapsed: '',
-    onCollapse: '',
+    collapsed: false,
+    onCollapse: () => {},
     headerLeftItem: null,
     isPortal: false,
     currentUser: { name: '' },
@@ -102,13 +102,22 @@ export default class GlobalHeader extends PureComponent {
         width="200px"
         className={styles.sliderSysDrawer}
         visible={visibleDrawer}>
-        {appsConfig.map(({ value, name, manifestUrl, path }) => (
+        {appsConfig.map(({ imgBg, value, name, imgActive, manifestUrl, path }) => (
           <div
             onClick={() => onHref(manifestUrl, value, path)}
             key={value}
             style={{ margin: '12px auto', width: '150px', position: 'relative' }}>
             <div style={{ color: '#fff', position: 'absolute', top: '10px', left: '12px' }}>
-              <img alt={value} />
+              <img src={imgBg} alt={value} />
+            </div>
+            <div
+              style={{
+                color: '#fff',
+                position: 'absolute',
+                top: '10px',
+                left: '12px'
+              }}>
+              <img src={imgActive} alt={value} />
             </div>
             <div
               style={{
@@ -135,10 +144,10 @@ export default class GlobalHeader extends PureComponent {
           </>
         ) : (
           <>
-            <span style={{ fontSize: '16px', color: '#fff', margin: '0 30px' }}>{projectName}</span>
+            <span style={{ fontSize: '16px', color: '#fff' }}>{projectName}</span>
             <Icon
               className={styles.trigger}
-              type={collapsed ? 'right-square-o' : 'left-square-o'}
+              type={collapsed ? 'menu-fold' : 'menu-unfold'}
               onClick={this.toggle}
             />
           </>
@@ -146,29 +155,25 @@ export default class GlobalHeader extends PureComponent {
         <div className={`${styles.right}`} styles={{ display: isPortal ? 'none' : 'block' }}>
           <Button
             onClick={this.onShowChangeSystem}
-            style={{ width: '98px', height: '24px', borderRadius: '2px' }}>
+            style={{ width: '98px', height: '24px', borderRadius: '2px' }}
+            type="primary">
             切换系统
           </Button>
         </div>
         <div className={`${styles.right} ${styles.avatarBox}`}>
-          <Tooltip title="使用文档">
-            <a className={styles.action}>
-              <Icon type="question-circle-o" />
-            </a>
-          </Tooltip>
+          <Divider type="vertical" style={{ opacity: 0.4, margin: '0 24px', height: '18px' }} />
           {currentUser.name ? (
             <Dropdown overlay={MenuItems}>
               <span className={`${styles.action} ${styles.account}`}>
-                <Avatar size="small" className={styles.avatar}>
-                  {currentUser.name.charAt(currentUser.name.length - 1)}
-                </Avatar>
+                Hi ~ {currentUser.name}
+                <Icon type="caret-down" style={{ color: '#fff', marginLeft: '4px' }} />
               </span>
             </Dropdown>
           ) : (
             <Spin size="small" style={{ marginLeft: 8 }} />
           )}
         </div>
-        <div className={`${styles.right} ${styles.medScreen}`}>{item}</div>
+        <div className={`${styles.right}`}>{item}</div>
         {ChangeSystem}
       </Header>
     );

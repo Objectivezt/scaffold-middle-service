@@ -40,8 +40,10 @@ export default class SliderMenu extends PureComponent {
     };
   }
 
-  // eslint-disable-next-line react/no-deprecated
   componentWillReceiveProps(nextProps) {
+    this.setState({
+      menus: nextProps.menuData
+    });
     if (nextProps.location.pathname !== this.props.location.pathname) {
       this.setState({
         openKeys: this.getDefaultCollapsedSubMenus(nextProps)
@@ -86,26 +88,19 @@ export default class SliderMenu extends PureComponent {
    */
   getMenuItemPath = item => {
     const itemPath = this.conversionPath(item.path);
-    const icon = getIcon(item.icon);
-    const click = this.props.isMobile ? () => this.props.onCollapse(true) : undefined;
-    const { target, name } = item;
+    const { target, name, children, level, icon } = item;
     // Is it a http link
     if (/^https?:\/\//.test(itemPath)) {
       return (
         <a href={itemPath} target={target}>
-          {icon}
+          {!children && level === 1 ? getIcon(icon) : null}
           <span>{name}</span>
         </a>
       );
     }
-
     return (
-      <Link
-        to={itemPath}
-        target={target}
-        replace={itemPath === this.props.location.pathname}
-        onClick={click}>
-        {icon}
+      <Link to={itemPath} target={target} replace={itemPath === this.props.location.pathname}>
+        {!children && level === 1 ? getIcon(icon) : null}
         <span>{name}</span>
       </Link>
     );
@@ -114,32 +109,35 @@ export default class SliderMenu extends PureComponent {
   /**
    * get SubMenu or Item
    */
-  getSubMenuOrItem = item => {
-    if (item.children && item.children.some(child => child.name)) {
-      const childrenItems = this.getNavMenuItems(item.children);
+  getSubMenuOrItem = ({ children, icon, name, path, level }) => {
+    if (children && children.some(child => child.name)) {
+      const childrenItems = this.getNavMenuItems(children);
       // 当无子菜单时就不展示菜单
       if (childrenItems && childrenItems.length > 0) {
         return (
           <SubMenu
             title={
-              item.icon ? (
-                <span className={styles.menuItem}>
-                  {getIcon(item.icon)}
-                  <span style={{ color: '#fff' }}>{item.name}</span>
+              icon ? (
+                <span>
+                  {level === 1 ? getIcon(icon) : null}
+                  <span>{name}</span>
                 </span>
               ) : (
-                item.name
+                name
               )
             }
-            className={styles.menuItem}
-            key={item.path}>
+            key={path}>
             {childrenItems}
           </SubMenu>
         );
       }
       return null;
     }
-    return <Menu.Item key={item.path}>{this.getMenuItemPath(item)}</Menu.Item>;
+    return (
+      <Menu.Item key={path}>
+        {this.getMenuItemPath({ children, icon, name, path, level })}
+      </Menu.Item>
+    );
   };
 
   /**
@@ -197,7 +195,7 @@ export default class SliderMenu extends PureComponent {
   };
 
   render() {
-    const { collapsed, onCollapse } = this.props;
+    const { collapsed, onCollapse, width } = this.props;
     const { openKeys } = this.state;
     // Don't show popup menu when it is been collapsed
     const menuProps = collapsed ? {} : { openKeys };
@@ -213,13 +211,13 @@ export default class SliderMenu extends PureComponent {
         collapsed={collapsed}
         breakpoint="lg"
         onCollapse={onCollapse}
-        width="178"
+        width={width || 176}
         collapsedWidth="48"
         className={styles.sider}>
         <Menu
           key="Menu"
           mode="inline"
-          theme="dark"
+          theme="light"
           onOpenChange={this.handleOpenChange}
           selectedKeys={selectedKeys}
           className={styles.menu}

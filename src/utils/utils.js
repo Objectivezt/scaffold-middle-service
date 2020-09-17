@@ -4,15 +4,12 @@
  * @Last Modified by: objectivezt
  * @Last Modified time: 2020-08-04 17:34:16
  */
-
-import { Modal } from 'antd';
 import moment from 'moment';
 import { get, isArray, pick, isNaN, isFinite, trim } from 'lodash';
 
 /**
  * @description 浏览器URL正则
  */
-// eslint-disable-next-line
 const reg = /(((^https?:(?:\/\/)?)(?:[-;:&=\+\$,\w]+@)?[A-Za-z0-9.-]+|(?:www.|[-;:&=\+\$,\w]+@)[A-Za-z0-9.-]+)((?:\/[\+~%\/.\w-_]*)?\??(?:[-\+=&;%@.\w_]*)#?(?:[\w]*))?)$/g;
 
 /**

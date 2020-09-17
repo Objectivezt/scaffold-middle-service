@@ -28,11 +28,7 @@ const App = ({ history }) => {
 
   const DvaApp = app.start();
 
-  return (
-    <>
-      <DvaApp />
-    </>
-  );
+  return <DvaApp />;
 };
 
 export default App;

@@ -50,19 +50,29 @@ export default {
     },
 
     *getCurrentUser(_, { call, put }) {
-      const res = yield call(queryCurrentUser);
-      if (res) {
-        const { data, code, msg } = res;
-        if (code === '0000') {
-          yield put({
-            type: 'saveCurrentUser',
-            payloadCurrentUser: {
-              username: data.username,
-              userId: data.userId
-            }
-          });
-        } else {
-          message.info(msg);
+      if (localDevData) {
+        yield put({
+          type: 'saveCurrentUser',
+          payloadCurrentUser: {
+            username: '转帖',
+            userId: 'objectivezt'
+          }
+        });
+      } else {
+        const res = yield call(queryCurrentUser);
+        if (res) {
+          const { data, code, msg } = res;
+          if (code === '0000') {
+            yield put({
+              type: 'saveCurrentUser',
+              payloadCurrentUser: {
+                username: data.username,
+                userId: data.userId
+              }
+            });
+          } else {
+            message.info(msg);
+          }
         }
       }
     }

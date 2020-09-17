@@ -11,9 +11,8 @@
   height: 64px;
   position: relative;
   line-height: 64px;
-  padding-left: (@menu-collapsed-width - 32px) / 2;
+  padding-left: 6px;
   transition: all 0.3s;
-  background: #1d1d29;
   overflow: hidden;
 
   img {
@@ -34,32 +33,29 @@
     img {
       display: inline-block;
       vertical-align: middle;
-      height: 60px;
-      width: 160px;
+      height: 45px;
+      width: 110px;
       margin-top: 8px;
     }
   }
 }
 
 .sider {
-  min-height: 100vh;
-  height: 100vh;
+  min-height: 95vh;
+  height: 195vh;
   z-index: 10;
   position: fixed;
   overflow: auto;
   left: 0;
   color: #fff;
-  background: #1d1d29;
-  box-shadow: 2px 0 6px rgba(0, 21, 41, 0.35);
-
+  background-color: #fff;
   .menu {
     padding: 16px 0;
     width: 100%;
-    background-color: #1d1d29;
-    color: #fff;
   }
 }
 
+.sider::-webkit-scrollbar { width: 0 !important};
 .icon {
   width: 14px;
   margin-right: 10px;
