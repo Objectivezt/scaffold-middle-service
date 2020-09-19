@@ -1,8 +1,8 @@
 /*
  * @Author: objectivezt
  * @Date: 2018-09-05 17:34:02
- * @Last Modified by:   objectivezt
- * @Last Modified time: 2020-08-04 17:34:02
+ * @Last Modified by: objectivezt
+ * @Last Modified time: 2020-09-19 16:27:32
  */
 import {
   sum,
@@ -44,8 +44,8 @@ import {
   patternSpString,
   supportEncrypt,
   toDate
-} from './utils.js';
-import { greeter } from './utils.ts';
+} from '../src/utils/utils.js';
+import { greeter } from '../src/utils/utils.ts';
 
 /**
  * @desc sum

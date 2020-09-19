@@ -1,8 +1,8 @@
 /*
  * @Author: objectivezt
  * @Date: 2018-09-05 17:34:06
- * @Last Modified by:   objectivezt
- * @Last Modified time: 2020-08-04 17:34:06
+ * @Last Modified by: objectivezt
+ * @Last Modified time: 2020-09-19 16:51:32
  */
 import React from 'react';
 import Ellipsis from '@components/Ellipsis';
@@ -18,7 +18,7 @@ const { Item: MenuItem } = Menu;
  * @description 表单问号提示
  * @param {String} text
  */
-export function createQuestionTooltip(text) {
+export function renderQuestionTooltip(text) {
   return (
     <>
       &nbsp; &nbsp;
@@ -34,7 +34,7 @@ export function createQuestionTooltip(text) {
  * @param {String} title
  * @param {String} text
  */
-export function createStaticModal(title, text) {
+export function renderStaticModal(title, text) {
   Modal.info({
     title,
     content: text
@@ -45,7 +45,7 @@ export function createStaticModal(title, text) {
  * @description 静态详情
  * @param {String} msg
  */
-export function createStaticMessage(msg) {
+export function staticMessage(msg) {
   message.info(msg, 5000);
 }
 
@@ -54,7 +54,7 @@ export function createStaticMessage(msg) {
  * @param {String} value
  * @param {String} name
  */
-export function createOption(value, name) {
+export function renderOption(value, name) {
   return (
     <Option value={value} title={name} key={value}>
       {name}
@@ -77,6 +77,21 @@ export function createDivider(text) {
       }}>
       {text}
     </Divider>
+  );
+}
+
+/**
+ * @description 构建菜单项目
+ * @param {*} name 名称
+ * @param {*} id 编码
+ * @param {*} iconType icon编码
+ */
+export function renderMenuItem(name, id, iconType) {
+  return (
+    <MenuItem key={id}>
+      <Icon type={iconType} />
+      {name}
+    </MenuItem>
   );
 }
 
@@ -125,35 +140,23 @@ export function createDynamicFormItem(value, name) {
 }
 
 /**
- * @description 构造菜单项目
- * @param {String} value
- * @param {String} id
- * @param {String} iconType
- */
-export function createMenuItem(name, id, iconType) {
-  return (
-    <MenuItem key={id}>
-      <Icon type={iconType} />
-      {name}
-    </MenuItem>
-  );
-}
-
-/**
  * @description 构造FormItem
  * @param {Object} form
  * item @param {String|ReactNode} label
  * item @param {String} decoratorId
  * item @param {Object} decoratorOptions
- * item @param {ReactNode} components
+ * item @param {ReactNode} component
+ * @param { Number } n 默认Col 的 span
+ * @param { Object } labelCol 默认span 10
+ * @param { Object } wrapperCol 默认span 14
  */
-export const createFilterComponents = (form, item, n = 8) => {
+export const createFilterComponents = (form, item, n = 8, labelCol = 10, wrapperCol = 14) => {
   const { getFieldDecorator } = form;
-  const { label, decoratorId, decoratorOptions, components } = item;
+  const { label, decoratorId, decoratorOptions, component } = item;
   return (
     <Col key={decoratorId} span={n}>
-      <FormItem labelCol={{ span: 10 }} wrapperCol={{ span: 14 }} label={label}>
-        {getFieldDecorator(decoratorId, decoratorOptions)(components)}
+      <FormItem labelCol={{ span: labelCol }} wrapperCol={{ span: wrapperCol }} label={label}>
+        {getFieldDecorator(decoratorId, decoratorOptions)(component)}
       </FormItem>
     </Col>
   );
@@ -162,6 +165,7 @@ export const createFilterComponents = (form, item, n = 8) => {
 /**
  * @description 构造FormItem 响应式支持 label和wrapper 同一行
  * @param {Object} form
+ * @param {Object} item
  * item @param {String|ReactNode} label
  * item @param {String} decoratorId
  * item @param {Object} decoratorOptions
@@ -173,12 +177,12 @@ export const createFilterComponentsV2 = (form, item) => {
   return (
     <Col key={decoratorId} sm={24} md={12} lg={8} xl={6} xll={6}>
       <FormItem
-        labelCol={{ span: 24 }}
-        wrapperCol={{ span: 24 }}
-        label={label}
         colon
+        label={label}
+        labelCol={{ span: 24 }}
+        placeholder="请输入"
         style={{ width: '100%' }}
-        placeholder="请输入">
+        wrapperCol={{ span: 24 }}>
         {getFieldDecorator(decoratorId, decoratorOptions)(components)}
       </FormItem>
     </Col>
@@ -192,8 +196,20 @@ export const createFilterComponentsV2 = (form, item) => {
  * @param { React } FormItemComponents
  * @param { React } ButtonComponents
  */
-export const createFormSearch = (title, CardExtra, FormItemComponents, ButtonComponents) => (
-  <GlobalCard title={title} extra={CardExtra || null} mode={CardExtra ? null : 'search'}>
+export const createFormSearch = (
+  title,
+  CardExtra,
+  FormItemComponents,
+  ButtonComponents,
+  noAdvance = false,
+  isFilterCollapse = false
+) => (
+  <GlobalCard
+    title={title}
+    extra={CardExtra || null}
+    mode={CardExtra ? null : 'search'}
+    noAdvance={noAdvance}
+    isFilterCollapse={isFilterCollapse}>
     <Form>
       <Row>
         <Col sm={24} md={16} lg={18} xl={18} xll={18}>
@@ -211,7 +227,7 @@ export const createFormSearch = (title, CardExtra, FormItemComponents, ButtonCom
 
 /**
  * @description 登录确认
- * @param {*} self 上虞哦传递到this
+ * @param {*} self 上游传递的this
  */
 export const showLogoutConfirm = self => {
   Modal.confirm({
@@ -224,3 +240,10 @@ export const showLogoutConfirm = self => {
     }
   });
 };
+
+/**
+ * @description 登录确认
+ */
+export function goLoginConfirm() {
+  message.info('请求接口服务，没有正常返回数据，您可能需要重新登录系统');
+}
