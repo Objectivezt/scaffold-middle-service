@@ -1,5 +1,7 @@
 /.vscode/**
 
+/src/assets/**
+
 **/*.css
 
 **/*.svg
@@ -10,10 +12,8 @@
 
 **/dist
 
-postcss.config.js
-
 **/build
 
-**/bin
+**/*.tsx
 
-**/config
+**/*.ts

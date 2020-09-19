@@ -1,9 +1,9 @@
 {
   "compilerOptions": {
-    "baseUrl": ".",
-    "emitDecoratorMetadata": true,
-    "experimentalDecorators": true,
     "allowSyntheticDefaultImports": true,
+    "baseUrl":"./",
+    "experimentalDecorators": true,
+    "target": "es2017",
     "paths": {
       "@/*": ["./src/*"],
       "@assets/*": ["./src/assets/*"],

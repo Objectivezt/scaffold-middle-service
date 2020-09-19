@@ -714,3 +714,7 @@ export const toDate = time => {
 export const onHref = () => {
   // TODO
 };
+
+export function formateItem() {
+  // TODO
+}
