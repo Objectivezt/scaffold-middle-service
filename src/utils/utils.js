@@ -10,14 +10,14 @@ import { get, isArray, pick, isNaN, isFinite, trim } from 'lodash';
 /**
  * @description 浏览器URL正则
  */
+// eslint-disable-next-line no-useless-escape
 const reg = /(((^https?:(?:\/\/)?)(?:[-;:&=\+\$,\w]+@)?[A-Za-z0-9.-]+|(?:www.|[-;:&=\+\$,\w]+@)[A-Za-z0-9.-]+)((?:\/[\+~%\/.\w-_]*)?\??(?:[-\+=&;%@.\w_]*)#?(?:[\w]*))?)$/g;
 
 /**
- * @description 加法 DEMO
- * @param {Number} a
- * @param {Number} b
+ * @description 判断是否是网页路径
+ * @param {String} path
  */
-export const sum = (a, b) => a + b;
+export const isUrl = path => reg.test(path);
 
 /**
  * @description 判断字符串是否在数组中
@@ -26,7 +26,7 @@ export const sum = (a, b) => a + b;
  * @returns {Boolean}  true 存在 |  false 不存在
  */
 export const isInArray = (array, value) => {
-  for (let i = 0; i < array.length; i++) {
+  for (let i = 0; i < array.length; i += 1) {
     if (value === array[i]) {
       return true;
     }
@@ -62,12 +62,6 @@ export const authRouterPass = (_this, path) => {
 };
 
 /**
- * @description 判断是否是网页路径
- * @param {String} path
- */
-export const isUrl = path => reg.test(path);
-
-/**
  * @description 汉字转化3个字符
  * @param {String} value
  * @returns {Number} 默认0
@@ -83,8 +77,6 @@ export const calcLength = value => {
   }
   return len;
 };
-
-// __________________TODO_test_______________________
 
 /**
  * @description 构造Antd Table 的ColumnsItem
@@ -102,19 +94,22 @@ export const createBaseColumns = (cname, keyName) => ({
  * @description 构建Antd Form 基础验证
  * @param {String} text
  */
-export const createFormRulesRequire = text => ({
-  required: true,
-  message: `请输入${text}`
-});
+export const createFormRulesRequire = text => [
+  {
+    required: true,
+    message: `请输入${text || ''}`
+  }
+];
 
 /**
- * @description TODO
+ * @description 判断两个路由字符串之间的关系
  * @param {*} str1
  * @param {*} str2
  * @returns
  */
 export const getRelation = (str1, str2) => {
   if (str1 === str2) {
+    window.console.warn('Two path are equal!');
     return 0;
   }
   const arr1 = str1.split('/');
@@ -129,9 +124,9 @@ export const getRelation = (str1, str2) => {
 };
 
 /**
- * @description
+ * @description 菜单组装
  * @param {*} data
- * @param {*} parentPath
+ * @param {String} [parentPath='/']
  * @returns
  */
 export const formatterMenu = (data, parentPath = '/') =>
@@ -151,9 +146,9 @@ export const formatterMenu = (data, parentPath = '/') =>
   });
 
 /**
- * @description
+ * @description 路由重定向
  * @param {*} defaultUrl
- * @returns
+ * @returns {String}
  */
 export const getBashRedirect = defaultUrl => {
   const urlParams = new URL(window.location.href);
@@ -168,7 +163,7 @@ export const getBashRedirect = defaultUrl => {
 };
 
 /**
- * @description
+ * @description 获取徐亚渲染的菜单数组
  * @param {*} routes
  * @returns
  */
@@ -189,8 +184,7 @@ export const getRenderArr = routes => {
 };
 
 /**
- * Get router routing configuration
- * { path:{name,...param}}=>Array<{name,path ...param}>
+ * @description 获取路由配置类型转化  { path:{name,...param}}=>Array<{name,path ...param}>
  * @param {string} path
  * @param {routerData} routerData
  */
@@ -198,11 +192,11 @@ export const getRoutes = (path, routerData) => {
   let routes = Object.keys(routerData).filter(
     routePath => routePath.indexOf(path) === 0 && routePath !== path
   );
-  // Replace path to '' eg. path='user' /user/name => name
+  // 替换路径为“ eg. path='user' /user/name => name
   routes = routes.map(item => item.replace(path, ''));
-  // Get the route to be rendered to remove the deep rendering
+  // 获取要渲染的路线以删除深度渲染
   const renderArr = getRenderArr(routes);
-  // Conversion and stitching parameters
+  // 转化和拼接参数
   const renderRoutes = renderArr.map(item => {
     const exact = !routes.some(route => route !== item && getRelation(route, item) === 1);
     return {
@@ -216,272 +210,7 @@ export const getRoutes = (path, routerData) => {
 };
 
 /**
- * @description 异步加载js,css 文件
- * @param {*} fileUrl
- * @returns
- */
-export const loadFile = fileUrl => {
-  let url = fileUrl;
-  if (fileUrl.indexOf('http') === -1) {
-    url = `${window.location.origin}/public/${url}`;
-  }
-
-  return new Promise((resolve, reject) => {
-    try {
-      let file;
-      let $node;
-      if (url.indexOf('.js') > -1) {
-        file = document.createElement('script');
-        $node = document.getElementsByTagName('script');
-        file.type = 'text/javascript';
-        file.async = true;
-        file.src = url;
-      } else if (url.indexOf('.css') > -1) {
-        file = document.createElement('link');
-        $node = document.getElementsByTagName('link');
-        file.rel = 'stylesheet';
-        file.type = 'text/css';
-        file.href = url;
-      }
-
-      $node = $node[$node.length - 1] || $node[0];
-
-      if (!file || !$node) {
-        reject(new Error('no files'));
-        return;
-      }
-
-      file.onload = () => {
-        resolve();
-      };
-
-      $node.parentNode.insertBefore(file, $node);
-    } catch (err) {
-      reject(err);
-    }
-  });
-};
-/**
- * @description
- * @param {*} urls
- * @returns
- */
-export const loadFiles = urls => Promise.all(urls.map(url => loadFile(url)));
-
-/**
- * @description
- * @param {Function} fn
- * @param {Number} time
- */
-export const debounce = (fn, time = 3000) => {
-  let firstTime = '';
-  return (...rest) => {
-    const currentTime = new Date().getTime();
-    if (firstTime === '') {
-      firstTime = currentTime;
-    }
-    if (firstTime === currentTime || currentTime - firstTime >= time) {
-      fn.apply(this, rest);
-      firstTime = currentTime;
-    }
-  };
-};
-
-/**
- * @description
- * @param {*} value
- * @param {*} dotNumber
- * @returns
- */
-export const moneyExhibition = (value, dotNumber) => {
-  if (value) {
-    const tempArray = Number(value)
-      .toFixed(dotNumber)
-      .split('.');
-    const prefixString = Number(tempArray[0].toLocaleString());
-    const suffixString = tempArray[1];
-    return `${prefixString}.${suffixString}`;
-  }
-  return '0';
-};
-
-/**
- * @description
- * @param {String} time
- * @param {String} formatString
- * @returns {String}
- */
-export const timeExhibition = (time, formatString) =>
-  time ? moment(time).format(formatString) : '-';
-
-/**
- * @description
- * @param { Array } nodeList
- * @param { String } parentPath
- * @returns { Array }
- */
-export const getPlainNode = (nodeList, parentPath = '') => {
-  const arr = [];
-  nodeList.forEach(node => {
-    const item = node;
-    item.path = `${parentPath}/${item.path || ''}`.replace(/\/+/g, '/');
-    item.exact = true;
-    if (item.children && !item.component) {
-      arr.push(...getPlainNode(item.children, item.path));
-    } else {
-      if (item.children && item.component) {
-        item.exact = false;
-      }
-      arr.push(item);
-    }
-  });
-  return arr;
-};
-
-/**
- * @description
- * @param {*} e
- * @param {*} _this
- */
-export const routerGoBack = (e, _this) => {
-  if (e) {
-    e.preventDefault();
-  }
-  _this.props.history.goBack();
-};
-
-/**
- * @description
- * @param { String } api
- * @param { Array } options
- */
-export const getApiMethod = (api = '', options = {}) => {
-  if (options.method) {
-    return options.method;
-  }
-  return get(trim(api).match(/^.* /), 0) || 'GET';
-};
-
-/**
- * @description
- * @param { Number } len
- * @param { Number } radix
- */
-export const uniqId = (len = 6, radix = 60) => {
-  const chars = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz'.split('');
-  const uuid = [];
-  let i;
-
-  if (len) {
-    for (i = 0; i < len; i++) {
-      uuid[i] = chars[0 || Math.random() * radix];
-    }
-  } else {
-    let r;
-    uuid[8] = '-';
-    uuid[13] = '-';
-    uuid[18] = '-';
-    uuid[23] = '-';
-    uuid[14] = '4';
-    for (i = 0; i < 36; i++) {
-      if (!uuid[i]) {
-        r = 0 || Math.random() * 16;
-        uuid[i] = chars[i === 19 ? (r && 0x3) || 0x8 : r];
-      }
-    }
-  }
-
-  return uuid.join('');
-};
-
-/**
- * @description
- * @param { Number } num
- * @param { Number } length
- * @param { Number } formatter
- */
-export const formatNum = (num, length = 3, formatter = ',') => {
-  let number = num;
-  number = String(number || 0);
-  const numArr = number.split('.') || ['', ''];
-
-  const strAry = numArr[0].toString().split('');
-
-  for (let i = strAry.length - 1; i >= 0; i -= length) {
-    if (i !== strAry.length - 1 && i >= 0) {
-      strAry.splice(i + 1, 0, formatter);
-    }
-  }
-
-  return strAry.join('') + (numArr[1] ? `.${numArr[1]}` : '');
-};
-
-/**
- *
- * @param { Number } number
- * @param { Number } fix
- */
-export const numFixed = (number, fix = 2) => {
-  if (isNaN(Number(number)) || !isFinite(Number(number))) {
-    return 0;
-  }
-  return Number(number).toFixed(fix);
-};
-/**
- * @description
- * @param { Number } number
- * @param { Number } length
- * @param { Number } fix
- */
-export const formatNumDec = (number, length = 3, fix = 2) =>
-  formatNum(numFixed(number, fix), length);
-
-/**
- * @description
- * @param {*} source
- * @param { Array } filed
- */
-export const getter = (source, filed) => {
-  let result = source;
-  if (isArray(filed)) {
-    result = pick(source, filed);
-  } else if (typeof filed === 'string') {
-    result = get(source, filed);
-  }
-  return result;
-};
-
-/**
- * @description
- * @param { String} source
- */
-export const divideNumber = source => {
-  const result =
-    String(source).indexOf('.') !== -1
-      ? source.toLocaleString()
-      : source.toString().replace(/(\d)(?=(?:\d{3})+$)/g, '$1,');
-  return result;
-};
-
-/**
- * @description
- * @param {*} value
- * @returns
- */
-export const parserFormatter = value => value.replace(/(,*)/g, '');
-
-/**
- *
- * @param {*} value
- * @returns
- */
-export const patternNumberWord = value => {
-  const pattern = new RegExp('^[0-9a-zA-Z]+$');
-  return pattern.test(value);
-};
-
-/**
- *
+ * @description 省略标题
  * @param {String} value
  * @param {Number} num
  * @returns
@@ -498,16 +227,62 @@ export const ellipsisTitle = (value = '', num = 0) => {
 };
 
 /**
- * @description
- * @param {String} value
- * @returns
+ * @description 英文和数组大小写判断
+ * @param {*} value
+ * @returns {Boolean}
  */
-export const getTrimValue = value => (value ? String(value).trim() : '');
+export const patternNumberWord = value => {
+  const pattern = new RegExp('^[0-9a-zA-Z]+$');
+  return pattern.test(value);
+};
 
 /**
- *
- * @param {*} value
- * @returns
+ * @description 获取接口方法
+ * @param { String } [api='']
+ * @param { Array } [options={}]
+ */
+export const getApiMethod = (api = '', options = {}) => {
+  if (options.method) {
+    return options.method;
+  }
+  return get(trim(api).match(/^.* /), 0) || 'GET';
+};
+
+/**
+ * @description 防抖
+ * @param {Function} fn
+ * @param {Number} [time=3000]
+ */
+export const localDebounce = (fn, time = 3000) => {
+  let firstTime = '';
+  return (...rest) => {
+    const currentTime = new Date().getTime();
+    if (firstTime === '') {
+      firstTime = currentTime;
+    }
+    if (firstTime === currentTime || currentTime - firstTime >= time) {
+      fn.apply(this, rest);
+      firstTime = currentTime;
+    }
+  };
+};
+
+/**
+ * @description 数字转千分位
+ * @param {String} value
+ */
+export const thousandsFormatter = value => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+
+/**
+ * @description 清除逗号
+ * @param {String} value
+ */
+export const parserFormatter = value => `${value}`.replace(/(,*)/g, '');
+
+/**
+ * @description 判断特殊字符是否存在
+ * @param {String} value
+ * @returns {String} length 长度
  */
 export const patternString = value => {
   const pattern = new RegExp('[\'":%]');
@@ -515,54 +290,100 @@ export const patternString = value => {
 };
 
 /**
- * @description
- * @param { String } type
- * @param { Number } source
- * @param { Object } opts
+ * @description 去除输入值左右空白
+ * @param {String} value
+ * @returns
  */
-export const formatStringByType = (type, source, opts = {}) => {
-  let result;
-  switch (type) {
-    case 'Number.Int':
-      result = parseInt(source, 10);
-      break;
-    case 'Number.Float':
-      result = parseFloat(source).toFixed(opts.fixed || 2);
-      break;
-    case 'Number.Divide':
-      result = divideNumber(source);
-      break;
-    case 'Number.Percent': // 百分比
-      result = String(source).indexOf('%') ? source : `${parseFloat(source) * 100}%`;
-      break;
-    case 'Date': // HH:mm
-      result = moment(source).format(opts.format || 'YYYY-MM-DD HH:mm:ss');
-      break;
-    case 'Date.Date': // YYYY-MM-DD
-      result = moment(source).format('YYYY-MM-DD');
-      break;
-    case 'Date.Month': // YYYY-MM
-      result = moment(source).format('YYYY-MM');
-      break;
-    case 'Date.Time': // HH:mm
-      result = moment(source).format('HH:mm');
-      break;
-    default:
-      result = source;
-  }
+export const getTrimFunc = value => (value ? String(value).trim() : '');
 
-  return String(result);
+/**
+ * @description 时间格式展示
+ * @param {String} time
+ * @param {String} formatString
+ * @returns {String}
+ */
+export const timeExhibition = (time, formatString) =>
+  time ? moment(time).format(formatString) : '-';
+
+
+/**
+ * @description 金额展示
+ * @param {*} value
+ * @param {*} dotNumber
+ */
+export const moneyExhibition = (value, dotNumber) => {
+  if (value) {
+    const tempArray = Number(value)
+      .toFixed(dotNumber)
+      .split('.');
+    const prefixString = Number(tempArray[0].toLocaleString());
+    const suffixString = tempArray[1];
+    return `${prefixString}.${suffixString}`;
+  }
+  return '0';
 };
 
 /**
- * @description
+ * @description 日期转化
+ * @param {Object} time
+ * @returns {String}
+ */
+export const toDate = time => {
+  const year = time.getYear() + 1900;
+  let month = time.getMonth() + 1;
+  if (month < 10) {
+    month = `0${month}`;
+  }
+  let date = time.getDate();
+  if (date < 10) {
+    date = `0${date}`;
+  }
+  return `${year}-${month}-${date}`;
+};
+
+/**
+ * @description 中文金额
+ * @param { Number } n
+ * @returns {String}
+ */
+export const digitUppercase = n => {
+  const fraction = ['角', '分'];
+  const digit = ['零', '壹', '贰', '叁', '肆', '伍', '陆', '柒', '捌', '玖'];
+  const unit = [
+    ['元', '万', '亿'],
+    ['', '拾', '佰', '仟']
+  ];
+  let num = Math.abs(n);
+  let s = '';
+  fraction.forEach((item, index) => {
+    s += (digit[Math.floor(num * 10 * 10 ** index) % 10] + item).replace(/零./, '');
+  });
+  s = s || '整';
+  num = Math.floor(num);
+  for (let i = 0; i < unit[0].length && num > 0; i += 1) {
+    let p = '';
+    for (let j = 0; j < unit[1].length && num > 0; j += 1) {
+      p = digit[num % 10] + unit[1][j] + p;
+      num = Math.floor(num / 10);
+    }
+    s = p.replace(/(零.)*零$/, '').replace(/^$/, '零') + unit[0][i] + s;
+  }
+
+  return s
+    .replace(/(零.)*零元/, '元')
+    .replace(/(零.)+/g, '零')
+    .replace(/^整$/, '零元整');
+};
+
+/**
+ * @description 单时间前缀加0
  * @param { Number } val
  *
  */
 export const fixedZero = val => (val * 1 < 10 ? `0${val}` : val);
 
 /**
- * @description
+ * @description 获取当前时间区间
  * @param { String } type
  * @returns { Array }
  */
@@ -613,108 +434,232 @@ export const getTimeDistance = type => {
 };
 
 /**
- * @description
- * @param { Number } n
- * @returns { String}
+ * @description 简化节点
+ * @param { Array } nodeList
+ * @param { String } parentPath
  */
-export const digitUppercase = n => {
-  const fraction = ['角', '分'];
-  const digit = ['零', '壹', '贰', '叁', '肆', '伍', '陆', '柒', '捌', '玖'];
-  const unit = [
-    ['元', '万', '亿'],
-    ['', '拾', '佰', '仟']
-  ];
-  let num = Math.abs(n);
-  let s = '';
-  fraction.forEach((item, index) => {
-    s += (digit[Math.floor(num * 10 * 10 ** index) % 10] + item).replace(/零./, '');
-  });
-  s = s || '整';
-  num = Math.floor(num);
-  for (let i = 0; i < unit[0].length && num > 0; i += 1) {
-    let p = '';
-    for (let j = 0; j < unit[1].length && num > 0; j += 1) {
-      p = digit[num % 10] + unit[1][j] + p;
-      num = Math.floor(num / 10);
+export const getPlainNode = (nodeList, parentPath = '') => {
+  const arr = [];
+  nodeList.forEach(node => {
+    const item = node;
+    item.path = `${parentPath}/${item.path || ''}`.replace(/\/+/g, '/');
+    item.exact = true;
+    if (item.children && !item.component) {
+      arr.push(...getPlainNode(item.children, item.path));
+    } else {
+      if (item.children && item.component) {
+        item.exact = false;
+      }
+      arr.push(item);
     }
-    s = p.replace(/(零.)*零$/, '').replace(/^$/, '零') + unit[0][i] + s;
+  });
+  return arr;
+};
+
+/**
+ * @description 生成ID
+ * @param { Number } [len=6]
+ * @param { Number } [radix=60]
+ */
+export const unqid = (len = 6, radix = 60) => {
+  const chars = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz'.split('');
+  const uuid = [];
+  let i;
+
+  if (len) {
+    for (i = 0; i < len; i++) {
+      uuid[i] = chars[0 || Math.random() * radix];
+    }
+  } else {
+    let r;
+    uuid[8] = '-';
+    uuid[13] = '-';
+    uuid[18] = '-';
+    uuid[23] = '-';
+    uuid[14] = '4';
+    for (i = 0; i < 36; i++) {
+      if (!uuid[i]) {
+        r = 0 || Math.random() * 16;
+        uuid[i] = chars[i === 19 ? (r && 0x3) || 0x8 : r];
+      }
+    }
   }
 
-  return s
-    .replace(/(零.)*零元/, '元')
-    .replace(/(零.)+/g, '零')
-    .replace(/^整$/, '零元整');
+  return uuid.join('');
 };
 
 /**
- * @description 千分位
- * @param {String} value
+ * @description 金额千分位处理
+ * @param { Number } number
+ * @param { Number } length
+ * @param { Number } fix
  */
-export const thousandsFormatter = value => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+export const formatNumDec = (number, length = 3, fix = 2) =>
+  formatNum(numFixed(number, fix), length);
 
 /**
- * @description 清除逗号
- * @param {String} value
+ * @description 转化金额字符串
+ * @param { Number } num
+ * @param { Number } length
+ * @param { Number } formatter
  */
-export const parserSemicolon = value => `${value}`.replace(/(,*)/g, '');
+export const formatNum = (num, length = 3, formatter = ',') => {
+  let number = num;
+  number = String(number || 0);
+  const numArr = number.split('.') || ['', ''];
+  const strAry = numArr[0].toString().split('');
+  for (let i = strAry.length - 1; i >= 0; i -= length) {
+    if (i !== strAry.length - 1 && i >= 0) {
+      strAry.splice(i + 1, 0, formatter);
+    }
+  }
 
-/**
- * @description 判断特殊字符是否存在
- * @param {String} value
- * @returns {String} length 长度
- */
-export const patternSpString = value => {
-  const pattern = new RegExp('[\'":%]');
-  return pattern.test(value);
+  return strAry.join('') + (numArr[1] ? `.${numArr[1]}` : '');
 };
+
+/**
+ * @description 带小数金额
+ * @param { Number } number
+ * @param { Number } fix
+ */
+export const numFixed = (number, fix = 2) => {
+  if (isNaN(Number(number)) || !isFinite(Number(number))) {
+    return 0;
+  }
+  return Number(number).toFixed(fix);
+};
+
+/**
+ * @description 获取对象值
+ * @param {*} source
+ * @param {*} filed
+ */
+export const getter = (source, filed) => {
+  let result = source;
+  if (isArray(filed)) {
+    result = pick(source, filed);
+  } else if (typeof filed === 'string') {
+    result = get(source, filed);
+  }
+  return result;
+};
+
+/**
+ * @description 数字分割
+ * @param { String} source
+ */
+export const divideNumber = source => {
+  const result =
+    String(source).indexOf('.') !== -1
+      ? source.toLocaleString()
+      : source.toString().replace(/(\d)(?=(?:\d{3})+$)/g, '$1,');
+  return result;
+};
+
+/**
+ * @description 类型转化
+ * @param { String } type
+ * @param { Number } source
+ * @param { Object } opts
+ */
+export const formatStringByType = (type, source, opts = {}) => {
+  let result;
+  switch (type) {
+    case 'Number.Int':
+      result = parseInt(source, 10);
+      break;
+    case 'Number.Float':
+      result = parseFloat(source).toFixed(opts.fixed || 2);
+      break;
+    case 'Number.Divide':
+      result = divideNumber(source);
+      break;
+    case 'Number.Percent': // 百分比
+      result = String(source).indexOf('%') ? source : `${parseFloat(source) * 100}%`;
+      break;
+    case 'Date': // HH:mm
+      result = moment(source).format(opts.format || 'YYYY-MM-DD HH:mm:ss');
+      break;
+    case 'Date.Date': // YYYY-MM-DD
+      result = moment(source).format('YYYY-MM-DD');
+      break;
+    case 'Date.Month': // YYYY-MM
+      result = moment(source).format('YYYY-MM');
+      break;
+    case 'Date.Time': // HH:mm
+      result = moment(source).format('HH:mm');
+      break;
+    default:
+      result = source;
+  }
+
+  return String(result);
+};
+
+/**
+ * @description 异步加载js,css 文件
+ * @param {*} fileUrl
+ */
+export const loadFile = fileUrl => {
+  let url = fileUrl;
+  if (fileUrl.indexOf('http') === -1) {
+    url = `${window.location.origin}/public/${url}`;
+  }
+
+  return new Promise((resolve, reject) => {
+    try {
+      let file;
+      let $node;
+      if (url.indexOf('.js') > -1) {
+        file = document.createElement('script');
+        $node = document.getElementsByTagName('script');
+        file.type = 'text/javascript';
+        file.async = true;
+        file.src = url;
+      } else if (url.indexOf('.css') > -1) {
+        file = document.createElement('link');
+        $node = document.getElementsByTagName('link');
+        file.rel = 'stylesheet';
+        file.type = 'text/css';
+        file.href = url;
+      }
+
+      $node = $node[$node.length - 1] || $node[0];
+
+      if (!file || !$node) {
+        reject(new Error('no files'));
+        return;
+      }
+
+      file.onload = () => {
+        resolve();
+      };
+
+      $node.parentNode.insertBefore(file, $node);
+    } catch (err) {
+      reject(err);
+    }
+  });
+};
+
+/**
+ * @description 批量异步加载
+ * @param {*} urls
+ */
+export const loadFiles = urls => Promise.all(urls.map(url => loadFile(url)));
 
 /**
  * @description
+ * @param {*} e
+ * @param {*} _this
  */
-export const supportEncrypt = () => {
-  const agent = navigator.userAgent.toLowerCase();
-  if (agent.indexOf('compatible') > -1 || agent.indexOf('msie') > -1) {
-    const IEVersion = RegExp.$1;
-    return parseFloat(IEVersion) > 8.0;
+export const routerGoBack = (e, _this) => {
+  if (e) {
+    e.preventDefault();
   }
-
-  if (
-    agent.indexOf('opera') > -1 ||
-    agent.indexOf('firefox') > -1 ||
-    agent.indexOf('chrome') > -1 ||
-    agent.indexOf('trident') > -1
-  ) {
-    return true;
-  }
-
-  if (agent.indexOf('safari') > -1) {
-    return false;
-  }
-  return false;
+  _this.props.history.goBack();
 };
 
-/**
- * @description
- * @param {Object} time
- * @returns {String}
- */
-export const toDate = time => {
-  const year = time.getYear() + 1900;
-  let month = time.getMonth() + 1;
-  if (month < 10) {
-    month = `0${month}`;
-  }
-  let date = time.getDate();
-  if (date < 10) {
-    date = `0${date}`;
-  }
-  return `${year}-${month}-${date}`;
-};
+// ++++++++++++++++++++++++++++++++++exclusive++++++++++++++++++++++++++++++++++++++++++++++
 
-export const onHref = () => {
-  // TODO
-};
-
-export function formateItem() {
-  // TODO
-}
+export { onHref, formateItem, supportSM2Encrypt} from './utils.exclusive'

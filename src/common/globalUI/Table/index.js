@@ -184,6 +184,7 @@ export default class GlobalTable extends Component {
       type: rowSelection === 'checkbox' ? 'checkbox' : 'radio',
       selectedRowKeys: localSelectRowKeys,
       selectedRows: localSelectedRows,
+      fixed: true,
       onChange: (selectedRowKeys, selectedRows) =>
         this.updateSelectedItem(selectedRowKeys, selectedRows),
       getCheckboxProps: record => this.updateCheckBoxProps(record)
