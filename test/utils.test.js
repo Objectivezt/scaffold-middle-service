@@ -5,7 +5,6 @@
  * @Last Modified time: 2020-09-19 16:27:32
  */
 import {
-  sum,
   authRouterPass,
   isInArray,
   isUrl,
@@ -46,13 +45,6 @@ import {
   toDate
 } from '../src/utils/utils.js';
 import { greeter } from '../src/utils/utils.ts';
-
-/**
- * @desc sum
- */
-test('sum: adds 1 + 2 to equal 3', () => {
-  expect(sum(1, 2)).toBe(3);
-});
 
 /**
  * @desc greeter
@@ -146,10 +138,10 @@ test('createBaseColumns', () => {
  * @description createFormRulesRequire
  */
 test('createFormRulesRequire', () => {
-  expect(createFormRulesRequire('文本')).toStrictEqual({
+  expect(createFormRulesRequire('文本')).toStrictEqual([{
     required: true,
     message: '请输入文本'
-  });
+  }]);
 });
 
 /**
