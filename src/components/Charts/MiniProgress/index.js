@@ -1,7 +1,12 @@
+/*
+ * @Author: objectivezt
+ * @Date: 2020-10-18 20:35:21
+ * @Last Modified by:   objectivezt
+ * @Last Modified time: 2020-10-18 20:35:21
+ */
 import React from 'react';
 import { Tooltip } from 'antd';
-
-import styles from './index.less';
+import styles from './index.module.less';
 
 const MiniProgress = ({ target, color = 'rgb(19, 194, 194)', strokeWidth, percent }) => (
   <div className={styles.miniProgress}>
@@ -17,7 +22,7 @@ const MiniProgress = ({ target, color = 'rgb(19, 194, 194)', strokeWidth, percen
         style={{
           backgroundColor: color || null,
           width: percent ? `${percent}%` : null,
-          height: strokeWidth || null,
+          height: strokeWidth || null
         }}
       />
     </div>

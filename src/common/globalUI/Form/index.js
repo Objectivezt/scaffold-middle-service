@@ -287,9 +287,9 @@ export default class GlobalForm extends Component {
             required = false,
             subSpanNumber = null
           }) => {
-            let formItemComponent;
+            let formItemBox;
             if (formType === 'input') {
-              formItemComponent = (
+              formItemBox = (
                 <FormItem
                   {...localFormItemLayout}
                   {...globalFormItemBox}
@@ -301,7 +301,7 @@ export default class GlobalForm extends Component {
                 </FormItem>
               );
             } else if (formType === 'select') {
-              formItemComponent = (
+              formItemBox = (
                 <FormItem
                   {...localFormItemLayout}
                   {...globalFormItemBox}
@@ -328,7 +328,7 @@ export default class GlobalForm extends Component {
                 </FormItem>
               );
             } else if (formType === 'rangePicker') {
-              formItemComponent = (
+              formItemBox = (
                 <FormItem
                   {...localFormItemLayout}
                   {...globalFormItemBox}
@@ -346,7 +346,7 @@ export default class GlobalForm extends Component {
                 </FormItem>
               );
             } else if (formType === 'datePicker') {
-              formItemComponent = (
+              formItemBox = (
                 <FormItem
                   {...localFormItemLayout}
                   {...globalFormItemBox}
@@ -365,7 +365,7 @@ export default class GlobalForm extends Component {
                 </FormItem>
               );
             } else if (formType === 'monthPicker') {
-              formItemComponent = (
+              formItemBox = (
                 <FormItem
                   {...localFormItemLayout}
                   {...globalFormItemBox}
@@ -384,7 +384,7 @@ export default class GlobalForm extends Component {
                 </FormItem>
               );
             } else if (formType === 'customize') {
-              formItemComponent = (
+              formItemBox = (
                 <FormItem
                   {...localFormItemLayout}
                   {...globalFormItemBox}
@@ -404,8 +404,15 @@ export default class GlobalForm extends Component {
             }
 
             return (
-              <Col span={subSpanNumber || spanNumber} {...localColProps} key={`${keyName}`}>
-                {formItemComponent}
+              <Col
+                {...localColProps}
+                sm={subSpanNumber || 24}
+                md={subSpanNumber || 12}
+                lg={subSpanNumber || 8}
+                xl={subSpanNumber || 6}
+                xll={subSpanNumber}
+                key={`${keyName}`}>
+                {formItemBox}
               </Col>
             );
           }

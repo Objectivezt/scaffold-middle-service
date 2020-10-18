@@ -1,3 +1,9 @@
+/*
+ * @Author: objectivezt
+ * @Date: 2020-10-18 20:52:53
+ * @Last Modified by: objectivezt
+ * @Last Modified time: 2020-10-18 20:53:20
+ */
 import numeral from 'numeral';
 import './g2';
 import ChartCard from './ChartCard';
@@ -14,7 +20,6 @@ import TagCloud from './TagCloud';
 import TimelineChart from './TimelineChart';
 
 const yuan = val => `¥ ${numeral(val).format('0,0')}`;
-
 const Charts = {
   yuan,
   Bar,
@@ -28,7 +33,7 @@ const Charts = {
   Field,
   WaterWave,
   TagCloud,
-  TimelineChart,
+  TimelineChart
 };
 
 export {
@@ -45,5 +50,5 @@ export {
   Field,
   WaterWave,
   TagCloud,
-  TimelineChart,
+  TimelineChart
 };

@@ -1,7 +1,13 @@
+/*
+ * @Author: objectivezt
+ * @Date: 2020-10-18 20:41:03
+ * @Last Modified by: objectivezt
+ * @Last Modified time: 2020-10-18 20:42:20
+ */
 import React from 'react';
 import { Chart, Tooltip, Geom } from 'bizcharts';
 import autoHeight from '../autoHeight';
-import styles from '../index.less';
+import styles from '../index.module.less';
 
 @autoHeight()
 export default class MiniBar extends React.Component {
@@ -10,11 +16,11 @@ export default class MiniBar extends React.Component {
 
     const scale = {
       x: {
-        type: 'cat',
+        type: 'cat'
       },
       y: {
-        min: 0,
-      },
+        min: 0
+      }
     };
 
     const padding = [36, 5, 30, 5];
@@ -23,8 +29,8 @@ export default class MiniBar extends React.Component {
       'x*y',
       (x, y) => ({
         name: x,
-        value: y,
-      }),
+        value: y
+      })
     ];
 
     // for tooltip not to be hide
@@ -38,8 +44,7 @@ export default class MiniBar extends React.Component {
             height={chartHeight}
             forceFit={forceFit}
             data={data}
-            padding={padding}
-          >
+            padding={padding}>
             <Tooltip showTitle={false} crosshairs={false} />
             <Geom type="interval" position="x*y" color={color} tooltip={tooltip} />
           </Chart>

@@ -1,15 +1,23 @@
+/*
+ * @Author: objectivezt
+ * @Date: 2020-10-18 20:40:22
+ * @Last Modified by:   objectivezt
+ * @Last Modified time: 2020-10-18 20:40:22
+ */
 import React, { Component } from 'react';
 import { Chart, Tooltip, Geom, Coord, Axis } from 'bizcharts';
 import { Row, Col } from 'antd';
 import autoHeight from '../autoHeight';
-import styles from './index.less';
+import styles from './index.module.less';
 
-/* eslint react/no-danger:0 */
 @autoHeight()
 export default class Radar extends Component {
-  state = {
-    legendData: [],
-  };
+  constructor(props) {
+    super(props);
+    this.state = {
+      legendData: []
+    };
+  }
 
   componentDidMount() {
     this.getLengendData();
@@ -32,20 +40,19 @@ export default class Radar extends Component {
     const items = geom.get('dataArray') || []; // 获取图形对应的
 
     const legendData = items.map(item => {
-      // eslint-disable-next-line
+      // eslint-disable-next-line no-underscore-dangle
       const origins = item.map(t => t._origin);
       const result = {
         name: origins[0].name,
         color: item[0].color,
         checked: true,
-        value: origins.reduce((p, n) => p + n.value, 0),
+        value: origins.reduce((p, n) => p + n.value, 0)
       };
-
       return result;
     });
 
     this.setState({
-      legendData,
+      legendData
     });
   };
 
@@ -56,19 +63,15 @@ export default class Radar extends Component {
   handleLegendClick = (item, i) => {
     const newItem = item;
     newItem.checked = !newItem.checked;
-
     const { legendData } = this.state;
     legendData[i] = newItem;
-
     const filteredLegendData = legendData.filter(l => l.checked).map(l => l.name);
-
     if (this.chart) {
       this.chart.filter('name', val => filteredLegendData.indexOf(val) > -1);
       this.chart.repaint();
     }
-
     this.setState({
-      legendData,
+      legendData
     });
   };
 
@@ -81,7 +84,7 @@ export default class Radar extends Component {
       '#F04864',
       '#13C2C2',
       '#fa8c16',
-      '#a0d911',
+      '#a0d911'
     ];
 
     const {
@@ -93,16 +96,15 @@ export default class Radar extends Component {
       tickCount = 4,
       padding = [35, 30, 16, 30],
       animate = true,
-      colors = defaultColors,
+      colors = defaultColors
     } = this.props;
 
     const { legendData } = this.state;
-
     const scale = {
       value: {
         min: 0,
-        tickCount,
-      },
+        tickCount
+      }
     };
 
     const chartHeight = height - (hasLegend ? 80 : 22);
@@ -117,8 +119,7 @@ export default class Radar extends Component {
           data={data}
           padding={padding}
           animate={animate}
-          onGetG2Instance={this.getG2Instance}
-        >
+          onGetG2Instance={this.getG2Instance}>
           <Tooltip />
           <Coord type="polar" />
           <Axis
@@ -127,9 +128,9 @@ export default class Radar extends Component {
             tickLine={null}
             grid={{
               lineStyle: {
-                lineDash: null,
+                lineDash: null
               },
-              hideFirstLine: false,
+              hideFirstLine: false
             }}
           />
           <Axis
@@ -137,8 +138,8 @@ export default class Radar extends Component {
             grid={{
               type: 'polygon',
               lineStyle: {
-                lineDash: null,
-              },
+                lineDash: null
+              }
             }}
           />
           <Geom type="line" position="label*value" color={['name', colors]} size={1} />
@@ -156,14 +157,13 @@ export default class Radar extends Component {
               <Col
                 span={24 / legendData.length}
                 key={item.name}
-                onClick={() => this.handleLegendClick(item, i)}
-              >
+                onClick={() => this.handleLegendClick(item, i)}>
                 <div className={styles.legendItem}>
                   <p>
                     <span
                       className={styles.dot}
                       style={{
-                        backgroundColor: !item.checked ? '#aaa' : item.color,
+                        backgroundColor: !item.checked ? '#aaa' : item.color
                       }}
                     />
                     <span>{item.name}</span>

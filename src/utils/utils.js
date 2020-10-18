@@ -305,7 +305,6 @@ export const getTrimFunc = value => (value ? String(value).trim() : '');
 export const timeExhibition = (time, formatString) =>
   time ? moment(time).format(formatString) : '-';
 
-
 /**
  * @description 金额展示
  * @param {*} value
@@ -489,15 +488,6 @@ export const unqid = (len = 6, radix = 60) => {
 };
 
 /**
- * @description 金额千分位处理
- * @param { Number } number
- * @param { Number } length
- * @param { Number } fix
- */
-export const formatNumDec = (number, length = 3, fix = 2) =>
-  formatNum(numFixed(number, fix), length);
-
-/**
  * @description 转化金额字符串
  * @param { Number } num
  * @param { Number } length
@@ -528,6 +518,15 @@ export const numFixed = (number, fix = 2) => {
   }
   return Number(number).toFixed(fix);
 };
+
+/**
+ * @description 金额千分位处理
+ * @param { Number } number
+ * @param { Number } length
+ * @param { Number } fix
+ */
+export const formatNumDec = (number, length = 3, fix = 2) =>
+  formatNum(numFixed(number, fix), length);
 
 /**
  * @description 获取对象值
@@ -649,7 +648,14 @@ export const loadFile = fileUrl => {
 export const loadFiles = urls => Promise.all(urls.map(url => loadFile(url)));
 
 /**
- * @description
+ * @description 表格导出csv
+ */
+export const export2csv = () => {
+  // TODO
+};
+
+/**
+ * @description 回到上一页
  * @param {*} e
  * @param {*} _this
  */
@@ -660,6 +666,17 @@ export const routerGoBack = (e, _this) => {
   _this.props.history.goBack();
 };
 
+/**
+ * @description 获取浏览器中url的参数
+ * @param {*} key 参数名称定义
+ */
+export const getUrlQueryParamsString = key => {
+  const tempReg = new RegExp(`(^|&)${key}=([^&]*)(&|$)`);
+  const result = window.location.search.substr(1).match(tempReg);
+  //  中文转码 decodeURIComponent
+  return result ? decodeURIComponent(result[2]) : null;
+};
+
 // ++++++++++++++++++++++++++++++++++exclusive++++++++++++++++++++++++++++++++++++++++++++++
 
-export { onHref, formateItem, supportSM2Encrypt} from './utils.exclusive'
+export { onHref, formateItem, supportSM2Encrypt } from './utils.exclusive';

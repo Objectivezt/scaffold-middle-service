@@ -99,8 +99,7 @@ class Login extends Component {
       if (!item) {
         return;
       }
-      // eslint-disable-next-line
-      if (item.type.__ANT_PRO_LOGIN_TAB) {
+      if (item.type.LOGIN_TAB) {
         TabChildren.push(item);
       } else {
         otherChildren.push(item);

@@ -35,6 +35,8 @@ export default class LoginTab extends Component {
     }
   }
 
+  static LOGIN_TAB = true;
+
   render() {
     return <TabPane {...this.props} />;
   }

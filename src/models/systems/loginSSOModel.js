@@ -6,7 +6,7 @@
  */
 import { message } from 'antd';
 import { routerRedux } from 'dva/router';
-import { login, queryPublicKey, queryCaptchaImage } from '@services/systems/loginService';
+import { login, queryPublicKey, queryCaptchaImage } from '@/services/systems/loginSSOService';
 
 export default {
   namespace: 'loginSSOModel',
@@ -21,7 +21,29 @@ export default {
     forgetAccountUrl: ''
   },
   effects: {
-    // 获取公钥
+    /**
+     * @description 退出登录
+     * @param {*} _
+     * @param {*} { put }
+     */
+    *logout(_, { put }) {
+      // TODO 调用退出
+      // 调用当前 effects 中的goToLoginPage 方法
+      yield put({ type: 'goToLoginPage' });
+    },
+    /**
+     * @description 前往登录页
+     * @param {*} _
+     * @param {*} { put }
+     */
+    *goToLoginPage(_, { put }) {
+      yield put(routerRedux.push('/user/login'));
+    },
+    /**
+     * @description 获取公钥
+     * @param {*} _
+     * @param {*} { call, put }
+     */
     *getPublicKey(_, { call, put }) {
       const res = yield call(queryPublicKey);
       if (res) {
@@ -29,7 +51,7 @@ export default {
         if (code === '0000') {
           yield put({
             type: 'saveKey',
-            payloadPublicKey: {
+            payloadKey: {
               loginKey: data.publicKey,
               forgetUrl: data.forgetUrl,
               changeUrl: data.changeUrl,
@@ -42,8 +64,11 @@ export default {
         }
       }
     },
-
-    // 登录
+    /**
+     * @description 登录
+     * @param {*} { payloadLogin }
+     * @param {*} { call, put}
+     */
     *login({ payloadLogin }, { call, put }) {
       const res = yield call(login, payloadLogin);
       if (res) {
@@ -68,8 +93,11 @@ export default {
         }
       }
     },
-
-    // 切换验证码
+    /**
+     * @description 切换验证码
+     * @param {*} _
+     * @param {*} { call, put }
+     */
     *changeCaptchaImage(_, { call, put }) {
       const res = yield call(queryCaptchaImage);
       if (res) {
@@ -86,25 +114,13 @@ export default {
           message.error(msg);
         }
       }
-    },
-
-    // 前往登录页
-    *goToLoginPage(_, { put }) {
-      yield put(routerRedux.push('/user/login'));
-    },
-
-    // 退出登录
-    *logout(_, { put }) {
-      // TODO 调用退出
-      // 调用当前 effects 中的goToLoginPage 方法
-      yield put({ type: 'goToLoginPage' });
     }
   },
   reducers: {
-    saveKey(state, { payloadPublicKey }) {
+    saveKey(state, { payloadKey }) {
       return {
         ...state,
-        ...payloadPublicKey
+        ...payloadKey
       };
     },
     saveLogin(state, { payloadLogin }) {

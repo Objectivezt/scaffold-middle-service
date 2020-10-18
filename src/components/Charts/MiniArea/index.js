@@ -1,7 +1,13 @@
+/*
+ * @Author: objectivezt
+ * @Date: 2020-10-18 20:41:47
+ * @Last Modified by: objectivezt
+ * @Last Modified time: 2020-10-18 20:42:57
+ */
 import React from 'react';
 import { Chart, Axis, Tooltip, Geom } from 'bizcharts';
 import autoHeight from '../autoHeight';
-import styles from '../index.less';
+import styles from '../index.module.less';
 
 @autoHeight()
 export default class MiniArea extends React.Component {
@@ -17,7 +23,7 @@ export default class MiniArea extends React.Component {
       line,
       xAxis,
       yAxis,
-      animate = true,
+      animate = true
     } = this.props;
 
     const padding = [36, 5, 30, 5];
@@ -25,21 +31,27 @@ export default class MiniArea extends React.Component {
     const scaleProps = {
       x: {
         type: 'cat',
+
         range: [0, 1],
-        ...scale.x,
+
+        ...scale.x
       },
+
       y: {
         min: 0,
-        ...scale.y,
-      },
+
+        ...scale.y
+      }
     };
 
     const tooltip = [
       'x*y',
+
       (x, y) => ({
         name: x,
-        value: y,
-      }),
+
+        value: y
+      })
     ];
 
     const chartHeight = height + 54;
@@ -54,8 +66,7 @@ export default class MiniArea extends React.Component {
               height={chartHeight}
               forceFit={forceFit}
               data={data}
-              padding={padding}
-            >
+              padding={padding}>
               <Axis
                 key="axis-x"
                 name="x"
@@ -65,6 +76,7 @@ export default class MiniArea extends React.Component {
                 grid={false}
                 {...xAxis}
               />
+
               <Axis
                 key="axis-y"
                 name="y"
@@ -74,7 +86,9 @@ export default class MiniArea extends React.Component {
                 grid={false}
                 {...yAxis}
               />
+
               <Tooltip showTitle={false} crosshairs={false} />
+
               <Geom
                 type="area"
                 position="x*y"
@@ -82,9 +96,10 @@ export default class MiniArea extends React.Component {
                 tooltip={tooltip}
                 shape="smooth"
                 style={{
-                  fillOpacity: 1,
+                  fillOpacity: 1
                 }}
               />
+
               {line ? (
                 <Geom
                   type="line"
