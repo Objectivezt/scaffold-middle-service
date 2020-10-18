@@ -1,7 +1,13 @@
+/*
+ * @Author: objectivezt
+ * @Date: 2020-10-18 20:56:39
+ * @Last Modified by: objectivezt
+ * @Last Modified time: 2020-10-18 20:57:02
+ */
 import React from 'react';
 import classNames from 'classnames';
 import { Row } from 'antd';
-import styles from './index.less';
+import styles from './index.module.less';
 
 const DescriptionList = ({
   className,
@@ -23,7 +29,7 @@ const DescriptionList = ({
       {title ? <div className={styles.title}>{title}</div> : null}
       <Row gutter={gutter}>
         {React.Children.map(children, child =>
-          (child ? React.cloneElement(child, { column }) : child)
+          child ? React.cloneElement(child, { column }) : child
         )}
       </Row>
     </div>
