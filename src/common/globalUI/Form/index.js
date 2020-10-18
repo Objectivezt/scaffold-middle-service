@@ -30,7 +30,7 @@ const localColProps = {
  * @description 全局表格组件
  * @param { Function } onRefCommonRef 上游引用
  * @param { Boolean } isFilterCollapse 是否折叠
- * @param { Number } spanNumber 默认Col间距
+ * @param { Number } spanNumber 默认Col间距为均等分模式
  * @param { Array<Item> } formItemArray 表单项
  *  @eg Item
  *    Item @param { String } formType 渲染类型 input | select | rangePicker | datePicker | customize
@@ -48,6 +48,7 @@ const localColProps = {
  *    Item @param { Object } payloadObj 传参
  *    Item @param { Boolean } required 校验展示
  *    Item @param { Function } customizeCallBack 自定义组件回调函数
+ *    Item @param { Number } subSpanNumber 不使用均等分模式
  * @eg formItemArray: [
    @——————————{
    @————————————formType: 'input',
@@ -283,7 +284,8 @@ export default class GlobalForm extends Component {
             component: Comp,
             payloadObj,
             disabled = false,
-            required = false
+            required = false,
+            subSpanNumber = null
           }) => {
             let formItemComponent;
             if (formType === 'input') {
@@ -402,7 +404,7 @@ export default class GlobalForm extends Component {
             }
 
             return (
-              <Col span={spanNumber} {...localColProps} key={`${keyName}`}>
+              <Col span={subSpanNumber || spanNumber} {...localColProps} key={`${keyName}`}>
                 {formItemComponent}
               </Col>
             );

@@ -1,8 +1,13 @@
+/*
+ * @Author: objectivezt
+ * @Date: 2020-10-18 11:44:35
+ * @Last Modified by:   objectivezt
+ * @Last Modified time: 2020-10-18 11:44:35
+ */
 import React from 'react';
 import { Card, Spin } from 'antd';
 import classNames from 'classnames';
-
-import styles from './index.less';
+import styles from './index.module.less';
 
 const renderTotal = total => {
   let totalDom;
@@ -35,8 +40,7 @@ const ChartCard = ({
       <div
         className={classNames(styles.chartTop, {
           [styles.chartTopMargin]: !children && !footer
-        })}
-      >
+        })}>
         <div className={styles.avatar}>{avatar}</div>
         <div className={styles.metaWrap}>
           <div className={styles.meta}>
@@ -55,8 +59,7 @@ const ChartCard = ({
         <div
           className={classNames(styles.footer, {
             [styles.footerMargin]: !children
-          })}
-        >
+          })}>
           {footer}
         </div>
       )}
@@ -65,11 +68,9 @@ const ChartCard = ({
 
   return (
     <Card bodyStyle={{ padding: '20px 24px 8px 24px' }} {...rest}>
-      {
-        <Spin spinning={loading} wrapperClassName={styles.spin}>
-          {content}
-        </Spin>
-      }
+      <Spin spinning={loading} wrapperClassName={styles.spin}>
+        {content}
+      </Spin>
     </Card>
   );
 };

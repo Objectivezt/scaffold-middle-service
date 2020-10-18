@@ -1,15 +1,15 @@
 /*
  * @Author: objectivezt
  * @Date: 2018-09-05 17:35:13
- * @Last Modified by:   objectivezt
- * @Last Modified time: 2020-08-04 17:35:13
+ * @Last Modified by: objectivezt
+ * @Last Modified time: 2020-10-18 12:06:58
  */
 import { message } from 'antd';
 import { routerRedux } from 'dva/router';
 import { login, queryPublicKey, queryCaptchaImage } from '@services/systems/loginService';
 
 export default {
-  namespace: 'loginModel',
+  namespace: 'loginSSOModel',
   state: {
     status: false,
     validCode: '',
@@ -28,7 +28,7 @@ export default {
         const { code, data, msg } = res;
         if (code === '0000') {
           yield put({
-            type: 'savaKey',
+            type: 'saveKey',
             payloadPublicKey: {
               loginKey: data.publicKey,
               forgetUrl: data.forgetUrl,
@@ -101,7 +101,7 @@ export default {
     }
   },
   reducers: {
-    savaKey(state, { payloadPublicKey }) {
+    saveKey(state, { payloadPublicKey }) {
       return {
         ...state,
         ...payloadPublicKey

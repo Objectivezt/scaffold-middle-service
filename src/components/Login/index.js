@@ -1,8 +1,8 @@
 /*
  * @Author: objectivezt
  * @Date: 2018-09-05 17:38:43
- * @Last Modified by:   objectivezt
- * @Last Modified time: 2020-08-04 17:38:43
+ * @Last Modified by: objectivezt
+ * @Last Modified time: 2020-10-18 12:01:29
  */
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
@@ -84,8 +84,8 @@ class Login extends Component {
   handleSubmit = e => {
     e.preventDefault();
     const { active, type } = this.state;
-    const activeFileds = active[type];
-    this.props.form.validateFields(activeFileds, { force: true }, (err, values) => {
+    const activeFields = active[type];
+    this.props.form.validateFields(activeFields, { force: true }, (err, values) => {
       this.props.onSubmit(err, values);
     });
   };
@@ -95,6 +95,17 @@ class Login extends Component {
     const { type, tabs } = this.state;
     const TabChildren = [];
     const otherChildren = [];
+    React.Children.forEach(children, item => {
+      if (!item) {
+        return;
+      }
+      // eslint-disable-next-line
+      if (item.type.__ANT_PRO_LOGIN_TAB) {
+        TabChildren.push(item);
+      } else {
+        otherChildren.push(item);
+      }
+    });
     return (
       <div className={classNames(className, styles.login)}>
         <Form onSubmit={this.handleSubmit}>

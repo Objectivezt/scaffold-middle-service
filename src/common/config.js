@@ -25,6 +25,9 @@ export { default as globalRangePickerProps } from './globalUIProps/RangePicker.c
 // 日期
 export const globalDateFormat = 'YYYY-MM-DD';
 
+// 时间
+export const globalTimeFormat = 'YYYY-MM-DD HH:mm:ss';
+
 // 通用基础布局
 export const globalFormItemLayout = {
   labelCol: {

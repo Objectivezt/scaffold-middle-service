@@ -100,7 +100,7 @@ export default function request(url, options) {
       const status = e.name;
       if (status === 401) {
         dispatch({
-          type: 'loginModel/goToLoginPage'
+          type: 'loginSSOModel/goToLoginPage'
         });
       }
     });

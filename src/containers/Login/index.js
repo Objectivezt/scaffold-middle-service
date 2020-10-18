@@ -16,9 +16,9 @@ const CaptchaCode = UserName;
 const publicKeyHead = '-----BEGIN PUBLIC KEY-----';
 const publicKeyFooter = '-----END PUBLIC KEY-----';
 
-@connect(({ loginModel, loading }) => ({
-  loginModel,
-  logging: loading.effects['loginModel/login']
+@connect(({ loginSSOModel, loading }) => ({
+  loginSSOModel,
+  logging: loading.effects['loginSSOModel/login']
 }))
 export default class LoginPage extends Component {
   constructor(props) {
@@ -34,7 +34,7 @@ export default class LoginPage extends Component {
 
   getPublicKey = () => {
     this.props.dispatch({
-      type: 'loginModel/getPublicKey'
+      type: 'loginSSOModel/getPublicKey'
     });
   };
 
@@ -52,10 +52,10 @@ export default class LoginPage extends Component {
   };
 
   changeCaptcha = () => {
-    const { loginModel } = this.props;
-    const { requestId } = loginModel;
+    const { loginSSOModel } = this.props;
+    const { requestId } = loginSSOModel;
     this.props.dispatch({
-      type: 'loginModel/changeCaptcha',
+      type: 'loginSSOModel/changeCaptcha',
       payloadRequestId: {
         requestId
       }
@@ -120,8 +120,8 @@ export default class LoginPage extends Component {
    * @returns {Boolean}
    */
   handleSubmit = (err, values) => {
-    const { loginModel, dispatch } = this.props;
-    const { requestId, loginKey, validCode = '' } = loginModel;
+    const { loginSSOModel, dispatch } = this.props;
+    const { requestId, loginKey, validCode = '' } = loginSSOModel;
     // 异常捕获
     if (err) {
       return false;
@@ -146,7 +146,7 @@ export default class LoginPage extends Component {
     }
     // 登录 action
     dispatch({
-      type: 'loginModel/login',
+      type: 'loginSSOModel/login',
       payloadLogin: tempPayload
     });
     return true;
@@ -154,8 +154,8 @@ export default class LoginPage extends Component {
 
   render() {
     const { type } = this.state;
-    const { logging, loginModel } = this.props;
-    const { validCode = '' } = loginModel;
+    const { logging, loginSSOModel } = this.props;
+    const { validCode = '' } = loginSSOModel;
     const changeCap = (
       <img
         alt="img"

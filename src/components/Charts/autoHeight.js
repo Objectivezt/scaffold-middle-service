@@ -1,11 +1,16 @@
-/* eslint eqeqeq: 0 */
+/*
+ * @Author: objectivezt
+ * @Date: 2018-10-18 11:41:13
+ * @Last Modified by: objectivezt
+ * @Last Modified time: 2020-10-18 11:42:46
+ */
 import React from 'react';
 
 function computeHeight(node) {
-  const totalHeight = parseInt(getComputedStyle(node).height, 10); // eslint-disable-line
+  const totalHeight = parseInt(getComputedStyle(node).height, 10);
   const padding =
-    parseInt(getComputedStyle(node).paddingTop, 10) + // eslint-disable-line
-    parseInt(getComputedStyle(node).paddingBottom, 10); // eslint-disable-line
+    parseInt(getComputedStyle(node).paddingTop, 10) +
+    parseInt(getComputedStyle(node).paddingBottom, 10);
   return totalHeight - padding;
 }
 
@@ -20,6 +25,7 @@ function getAutoHeight(n) {
 
   while (!height) {
     node = node.parentNode;
+
     if (node) {
       height = computeHeight(node);
     } else {
@@ -32,15 +38,17 @@ function getAutoHeight(n) {
 
 const autoHeight = () => WrappedComponent =>
   class extends React.Component {
-    state = {
-      computedHeight: 0
-    };
+    constructor(props) {
+      super(props);
+      this.state = {
+        computedHeight: 0
+      };
+    }
 
     componentDidMount() {
       const { height } = this.props;
       if (!height) {
         const h = getAutoHeight(this.root);
-        // eslint-disable-next-line
         this.setState({ computedHeight: h });
       }
     }
@@ -51,8 +59,11 @@ const autoHeight = () => WrappedComponent =>
 
     render() {
       const { height } = this.props;
+
       const { computedHeight } = this.state;
+
       const h = height || computedHeight;
+
       return (
         <div ref={this.handleRoot}>{h > 0 && <WrappedComponent {...this.props} height={h} />}</div>
       );

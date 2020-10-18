@@ -1,3 +1,10 @@
+/*
+ * @Author: objectivezt
+ * @Date: 2020-10-18 11:51:42
+ * @Last Modified by: objectivezt
+ * @Last Modified time: 2020-10-18 11:57:39
+ */
+
 import React, { Component } from 'react';
 import { Chart, Tooltip, Geom, Coord } from 'bizcharts';
 import { DataView } from '@antv/data-set';
@@ -7,16 +14,17 @@ import ReactFitText from 'react-fittext';
 import Debounce from 'lodash-decorators/debounce';
 import Bind from 'lodash-decorators/bind';
 import autoHeight from '../autoHeight';
+import styles from './index.module.less';
 
-import styles from './index.less';
-
-/* eslint react/no-danger:0 */
 @autoHeight()
 export default class Pie extends Component {
-  state = {
-    legendData: [],
-    legendBlock: false
-  };
+  constructor(props) {
+    super(props);
+    this.state = {
+      legendData: [],
+      legendBlock: false
+    };
+  }
 
   componentDidMount() {
     this.getLegendData();
@@ -49,14 +57,14 @@ export default class Pie extends Component {
     this.chart = chart;
   };
 
-  // for custom lengend view
+  // for custom legend view
   getLegendData = () => {
     if (!this.chart) return;
     const geom = this.chart.getAllGeoms()[0]; // 获取所有的图形
     const items = geom.get('dataArray') || []; // 获取图形对应的
 
     const legendData = items.map(item => {
-      /* eslint no-underscore-dangle:0 */
+      // eslint-disable-next-line no-underscore-dangle
       const origin = item[0]._origin;
       origin.color = item[0].color;
       origin.checked = true;
@@ -68,7 +76,24 @@ export default class Pie extends Component {
     });
   };
 
-  // for window resize auto responsive legend
+  handleRoot = n => {
+    this.root = n;
+  };
+
+  handleLegendClick = (item, i) => {
+    const newItem = item;
+    newItem.checked = !newItem.checked;
+    const { legendData } = this.state;
+    legendData[i] = newItem;
+    const filteredLegendData = legendData.filter(l => l.checked).map(l => l.x);
+    if (this.chart) {
+      this.chart.filter('x', val => filteredLegendData.indexOf(val) > -1);
+    }
+    this.setState({
+      legendData
+    });
+  };
+
   @Bind()
   @Debounce(300)
   resize() {
@@ -90,28 +115,6 @@ export default class Pie extends Component {
     }
   }
 
-  handleRoot = n => {
-    this.root = n;
-  };
-
-  handleLegendClick = (item, i) => {
-    const newItem = item;
-    newItem.checked = !newItem.checked;
-
-    const { legendData } = this.state;
-    legendData[i] = newItem;
-
-    const filteredLegendData = legendData.filter(l => l.checked).map(l => l.x);
-
-    if (this.chart) {
-      this.chart.filter('x', val => filteredLegendData.indexOf(val) > -1);
-    }
-
-    this.setState({
-      legendData
-    });
-  };
-
   render() {
     const {
       valueFormat,
@@ -129,7 +132,6 @@ export default class Pie extends Component {
       colors,
       lineWidth = 1
     } = this.props;
-
     const { legendData, legendBlock } = this.state;
     const pieClassName = classNames(styles.pie, className, {
       [styles.hasLegend]: !!hasLegend,
@@ -203,8 +205,7 @@ export default class Pie extends Component {
               data={dv}
               padding={padding}
               animate={animate}
-              onGetG2Instance={this.getG2Instance}
-            >
+              onGetG2Instance={this.getG2Instance}>
               {!!tooltip && <Tooltip showTitle={false} />}
               <Coord type="theta" innerRadius={inner} />
               <Geom
@@ -220,7 +221,6 @@ export default class Pie extends Component {
             {(subTitle || total) && (
               <div className={styles.total}>
                 {subTitle && <h4 className="pie-sub-title">{subTitle}</h4>}
-                {/* eslint-disable-next-line */}
                 {total && (
                   <div className="pie-stat">{typeof total === 'function' ? total() : total}</div>
                 )}
