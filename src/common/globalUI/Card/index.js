@@ -35,7 +35,7 @@ class GlobalCard extends PureComponent {
     const { title, children, extra } = this.props;
     return (
       <Card
-        style={{ marginBottom: '20px', minHeight: '200px' }}
+        style={{ marginBottom: '12px', minHeight: '200px' }}
         {...globalCardProps}
         {...this.props}
         title={title}

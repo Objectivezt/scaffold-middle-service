@@ -9,7 +9,7 @@ import { Alert } from 'antd';
 import Button from 'antd/es/button';
 import { sum } from '@utils/utils';
 import { greeter } from '@utils/utils.ts';
-import styles from './index.less';
+import styles from './index.module.less';
 
 const user = { firstName: 'jack', lastName: 'kong' };
 

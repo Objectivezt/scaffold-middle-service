@@ -14,10 +14,6 @@ import moment from 'moment';
 const FormItem = Form.Item;
 const { Option } = Select;
 const { RangePicker, MonthPicker } = DatePicker;
-const localFormItemLayout = {
-  labelCol: { span: 24 },
-  wrapperCol: { span: 24 }
-};
 const localColProps = {
   sm: 24,
   md: 12,
@@ -32,6 +28,7 @@ const localColProps = {
  * @param { Boolean } isFilterCollapse 是否折叠
  * @param { Number } spanNumber 默认Col间距为均等分模式
  * @param { Array<Item> } formItemArray 表单项
+ * @param { String } mode 是否FormLabel 和 FormItem 扁平模式 === tiled 生效
  *  @eg Item
  *    Item @param { String } formType 渲染类型 input | select | rangePicker | datePicker | customize
  *    Item @param { String } labelName 标题名称
@@ -124,7 +121,8 @@ export default class GlobalForm extends Component {
     buttonList: PropTypes.array,
     spanNumber: PropTypes.any,
     onRefCommonRef: PropTypes.func,
-    onRefGlobalRef: PropTypes.func
+    onRefGlobalRef: PropTypes.func,
+    mode: PropTypes.string
   };
 
   static defaultProps = {
@@ -135,19 +133,69 @@ export default class GlobalForm extends Component {
     buttonArray: [],
     spanNumber: null,
     onRefCommonRef: () => {},
-    onRefGlobalRef: () => {}
+    onRefGlobalRef: () => {},
+    mode: ''
   };
 
   constructor(props) {
     super(props);
     this.state = {
-      isFilterCollapse: false
+      isFilterCollapse: false,
+      localFormItemLayout: {
+        labelCol: { span: 24 },
+        wrapperCol: { span: 24 }
+      },
+      localFormItemBox: globalFormItemBox,
+      formItemContainer: {
+        sm: 24,
+        md: 16,
+        lg: 18,
+        xl: 18,
+        xll: 18
+      },
+      formItemButton: {
+        sm: 24,
+        md: 8,
+        lg: 6,
+        xl: 6,
+        xll: 6
+      },
+      formExpendStatusHeight: '60px',
+      buttonArrayMarginTop: '35px'
     };
   }
 
   componentDidMount() {
     this.props.onRefCommonRef(this);
     this.props.onRefGlobalRef(this);
+    if (this.props.mode === 'tiled') {
+      this.setState({
+        formExpendStatusHeight: '28px',
+        localFormItemLayout: {
+          labelCol: { span: 9 },
+          wrapperCol: { span: 15 }
+        },
+        formItemContainer: {
+          sm: 24,
+          md: 24,
+          lg: 24,
+          xl: 24,
+          xll: 24
+        },
+        formItemButton: {
+          sm: 24,
+          md: 24,
+          lg: 24,
+          xl: 24,
+          xll: 24
+        },
+        buttonArrayMarginTop: '10px',
+        localFormItemBox: {
+          style: { width: '100%' },
+          placeholder: '请输入'
+        }
+      });
+    }
   }
 
   componentWillReceiveProps(nextProps) {
@@ -267,16 +315,29 @@ export default class GlobalForm extends Component {
 
   render() {
     const { form, formItemArray, buttonArray, spanNumber } = this.props;
-    const { isFilterCollapse } = this.state;
+    const {
+      isFilterCollapse,
+      localFormItemLayout,
+      formExpendStatusHeight,
+      formItemContainer,
+      buttonArrayMarginTop,
+      formItemButton,
+      localFormItemBox
+    } = this.state;
     const { getFieldDecorator } = form;
     const FormItemContainers = (
-      <Row style={isFilterCollapse ? { height: '100%' } : { height: '80px', overflow: 'hidden' }}>
+      <Row
+        style={
+          isFilterCollapse
+            ? { height: '100%' }
+            : { height: formExpendStatusHeight, overflow: 'hidden' }
+        }>
         {formItemArray.map(
           ({
             formType,
             labelName,
             keyName,
-            initialValue = '',
+            initialValue = undefined,
             selectArray = [],
             selectName,
             selectValue,
@@ -292,19 +353,25 @@ export default class GlobalForm extends Component {
               formItemBox = (
                 <FormItem
                   {...localFormItemLayout}
-                  {...globalFormItemBox}
+                  {...localFormItemBox}
                   label={labelName}
                   required={required}>
                   {getFieldDecorator(`${keyName}`, {
                     initialValue: initialValue || undefined
-                  })(<Input placeholder={placeholder} disabled={disabled} />)}
+                  })(
+                    <Input
+                      placeholder={placeholder}
+                      disabled={disabled}
+                      style={{ width: '100%' }}
+                    />
+                  )}
                 </FormItem>
               );
             } else if (formType === 'select') {
               formItemBox = (
                 <FormItem
                   {...localFormItemLayout}
-                  {...globalFormItemBox}
+                  {...localFormItemBox}
                   label={labelName}
                   required={required}>
                   {getFieldDecorator(`${keyName}`, {
@@ -331,7 +398,7 @@ export default class GlobalForm extends Component {
               formItemBox = (
                 <FormItem
                   {...localFormItemLayout}
-                  {...globalFormItemBox}
+                  {...localFormItemBox}
                   label={labelName}
                   required={required}>
                   {getFieldDecorator(`${keyName}`, {
@@ -349,7 +416,7 @@ export default class GlobalForm extends Component {
               formItemBox = (
                 <FormItem
                   {...localFormItemLayout}
-                  {...globalFormItemBox}
+                  {...localFormItemBox}
                   label={labelName}
                   required={required}>
                   {getFieldDecorator(`${keyName}`, {
@@ -368,7 +435,7 @@ export default class GlobalForm extends Component {
               formItemBox = (
                 <FormItem
                   {...localFormItemLayout}
-                  {...globalFormItemBox}
+                  {...localFormItemBox}
                   label={labelName}
                   required={required}>
                   {getFieldDecorator(`${keyName}`, {
@@ -387,7 +454,7 @@ export default class GlobalForm extends Component {
               formItemBox = (
                 <FormItem
                   {...localFormItemLayout}
-                  {...globalFormItemBox}
+                  {...localFormItemBox}
                   label={labelName}
                   required={required}>
                   {getFieldDecorator(`${keyName}`, {
@@ -425,16 +492,14 @@ export default class GlobalForm extends Component {
           {spanNumber ? (
             <>{FormItemContainers}</>
           ) : (
-            <Col sm={24} md={16} lg={18} xl={18} xll={18}>
-              {FormItemContainers}
-            </Col>
+            <Col {...formItemContainer}>{FormItemContainers}</Col>
           )}
-          <Col sm={24} md={8} lg={6} xl={6} xll={6}>
-            <Row style={{ marginTop: '40px' }}>
+          <Col {...formItemButton}>
+            <Row style={{ marginTop: buttonArrayMarginTop }}>
               <Col style={{ float: 'right' }}>
                 {buttonArray.map(({ btnName, iconType, clickCallBack, typeName }, index) => (
                   <Button
-                    style={index !== 0 ? { marginLeft: '10px' } : {}}
+                    style={index !== 0 ? { marginLeft: '0px' } : {}}
                     icon={iconType}
                     onClick={clickCallBack}
                     type={typeName}

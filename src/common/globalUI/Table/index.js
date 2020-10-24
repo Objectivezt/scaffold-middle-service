@@ -2,13 +2,14 @@
  * @Author: objectivezt
  * @Date: 2020-09-06 11:02:00
  * @Last Modified by: objectivezt
- * @Last Modified time: 2020-09-06 15:41:18
+ * @Last Modified time: 2020-10-18 21:22:33
  */
 
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Table } from 'antd';
 import { globalPaginationProps, globalTableProps } from '@common/config';
+import classnames from 'classnames';
 
 /**
  * @description 公共的表格组件
@@ -27,23 +28,39 @@ import { globalPaginationProps, globalTableProps } from '@common/config';
  * @param { Boolean } isResetPage 是否重置分页
  * @param { Function } footer 表格尾部
  * @param { Function } expendedRowRender 行展开部分
+ * @param { Boolean } pagination 是否需要分页
+ * @param { String } checkBoxDisableName 复选框不可点击的定义名称
+ * @param { String | Boolean | Number } checkBoxDisableValue 复选框不可点击的定义字段值
+ * @param { Function } checkBoxPropsStatusFunc 复选框自定义函数
+ * @param { Number } defaultPageSize 默认分页大小
+ * @param { Function } onRowFn 行点击函数
+ * @param { Boolean } rowSelectionFixed 行的checkBox是否铆钉
+ * @param { Boolean } bordered 展示外边框
  * @class GlobalTable
  * @extends { Component }
  */
 export default class GlobalTable extends Component {
   static propTypes = {
     basePageRequest: PropTypes.func,
+    bordered: PropTypes.bool,
+    changeRowClassNameFunc: PropTypes.func,
+    checkBoxDisableName: PropTypes.string,
+    checkBoxDisableValue: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
+    checkBoxPropsStatusFunc: PropTypes.func,
     columns: PropTypes.array,
+    defaultPageSize: PropTypes.array,
     expandedRowRender: PropTypes.oneOfType(PropTypes.func, PropTypes.any),
     filterObj: PropTypes.object,
     footer: PropTypes.oneOfType(PropTypes.func, PropTypes.any),
     isResetPage: PropTypes.bool,
     loading: PropTypes.bool,
+    onRowFn: PropTypes.func,
     onTableRef: PropTypes.func,
     pagination: PropTypes.bool,
     resList: PropTypes.array,
     resTotal: PropTypes.number,
     rowKey: PropTypes.string,
+    rowSelectionFixed: PropTypes.bool,
     scrollX: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
     that: PropTypes.object,
     useRefMethod: PropTypes.func
@@ -51,17 +68,24 @@ export default class GlobalTable extends Component {
 
   static defaultProps = {
     basePageRequest: () => {},
+    bordered: false,
+    changeRowClassNameFunc: () => '',
+    checkBoxDisableValue: '',
+    checkBoxDisableValue: '',
+    checkBoxPropsStatusFunc: () => {},
     columns: [],
     expandedRowRender: null,
     filterObj: {},
     footer: () => {},
     isResetPage: false,
     loading: false,
+    onRowFn: () => {},
     onTableRef: () => {},
     pagination: true,
     resList: [],
     resTotal: 0,
     rowKey: '',
+    rowSelectionFixed: true,
     scrollX: 'max-content',
     that: null,
     useRefMethod: () => {}
@@ -102,6 +126,7 @@ export default class GlobalTable extends Component {
       pageNum,
       pageSize,
       localSelectRowKeys: []
+      // 保持之前的checkbox item
     });
     const tempPayload = {
       ...this.props.filterObj,
@@ -141,12 +166,16 @@ export default class GlobalTable extends Component {
    * @param { Object } record
    */
   updateCheckBoxProps = record => {
-    const { checkBoxDisableName, checkBoxDisableValue } = this.props;
+    const { checkBoxDisableName, checkBoxDisableValue, checkBoxPropsStatusFunc } = this.props;
     if (checkBoxDisableName && checkBoxDisableValue) {
       return {
         disabled: record[checkBoxDisableName] === checkBoxDisableValue
       };
     }
+    if (checkBoxPropsStatusFunc) {
+      return checkBoxPropsStatusFunc(record);
+    }
+    return {};
   };
 
   /**
@@ -177,44 +206,55 @@ export default class GlobalTable extends Component {
       scrollX,
       rowSelection,
       footer,
-      expandedRowRender
+      expandedRowRender,
+      pagination,
+      defaultPageSize,
+      onRowFn,
+      rowSelectionFixed = true,
+      changeRowClassNameFunc,
+      bordered
     } = this.props;
     const { pageNum, pageSize, localSelectRowKeys, localSelectedRows } = this.state;
     const tempRowSelection = {
       type: rowSelection === 'checkbox' ? 'checkbox' : 'radio',
       selectedRowKeys: localSelectRowKeys,
       selectedRows: localSelectedRows,
-      fixed: true,
+      fixed: rowSelectionFixed,
       onChange: (selectedRowKeys, selectedRows) =>
         this.updateSelectedItem(selectedRowKeys, selectedRows),
       getCheckboxProps: record => this.updateCheckBoxProps(record)
     };
+    const tempPagination = {
+      ...globalPaginationProps,
+      current: pageNum,
+      total: resTotal,
+      defaultPageSize: defaultPageSize || 10,
+      pageSize,
+      showTotal: total => `总${total}项`,
+      onChange: (innerPageNum, innerPageSize) => this.changePage(innerPageNum, innerPageSize),
+      onShowSizeChange: (innerPageNum, innerPageSize) =>
+        this.changePage(innerPageNum, innerPageSize)
+    };
     return (
       <Table
         {...globalTableProps}
+        bordered={bordered}
         columns={columns}
         dataSource={resList}
         loading={loading}
         rowKey={rowKey}
         scroll={{ x: scrollX || 'max-content' }}
         rowSelection={rowSelection === false ? null : tempRowSelection}
-        rowClassName={(_, index) => {
-          let className = 'table-light-row';
+        rowClassName={(record, index) => {
+          let tempRowClassNameStr = '';
+          tempRowClassNameStr = changeRowClassNameFunc(record);
+          let className = classnames(tempRowClassNameStr, 'table-light-row');
           if (index % 2 !== 1) {
-            className = 'table-normal-row';
+            className = classnames(tempRowClassNameStr, 'table-normal-row');
           }
           return className;
         }}
-        pagination={{
-          ...globalPaginationProps,
-          current: pageNum,
-          total: resTotal,
-          pageSize,
-          showTotal: total => `总${total}项`,
-          onChange: (innerPageNum, innerPageSize) => this.changePage(innerPageNum, innerPageSize),
-          onShowSizeChange: (innerPageNum, innerPageSize) =>
-            this.changePage(innerPageNum, innerPageSize)
-        }}
+        pagination={pagination ? tempPagination : false}
         footer={footer}
         expandedRowRender={expandedRowRender}
       />

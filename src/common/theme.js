@@ -15,7 +15,7 @@ module.exports = {
   'card-inner-head-padding': '16px',
   'card-padding-base': '16px',
   'card-radius': '4px',
-  'form-item-margin-bottom': '8px',
+  'form-item-margin-bottom': '0px',
   'icon-url': './iconfont-3.x',
   'layout-body-background': '#EDF1F6',
   'layout-header-height': '48px',
@@ -30,5 +30,7 @@ module.exports = {
   'table-select-row-bg': '#ffc4c4',
   'tabs-bar-margin': '0 10px 6px 10px',
   'tabs-card-height': '28px',
-  'tabs-title-font-size': '14px'
+  'tabs-title-font-size': '14px',
+  'input-height-base': '24px',
+  'btn-height-base': '24px'
 };

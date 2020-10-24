@@ -6,6 +6,6 @@
  */
 export default {
   bordered: true,
-  size: 'default',
+  size: 'small',
   showHeader: true
 };

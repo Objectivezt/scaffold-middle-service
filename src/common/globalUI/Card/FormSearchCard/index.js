@@ -117,7 +117,7 @@ export default class FormSearchCard extends Component {
         }
         extra={this.createExtra()}
         style={{
-          marginBottom: '20px',
+          marginBottom: '12px',
           minHeight: '140px'
         }}>
         {children}

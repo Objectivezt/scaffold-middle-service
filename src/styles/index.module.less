@@ -53,9 +53,9 @@ body {
   }
 
   .ant-table {
-    .ant-table-row {
-      height: 48px;
-    }
+    // .ant-table-row {
+    //   height: 48px;
+    // }
 
     .ant-table-row:hover {
       box-shadow: 0px 4px 12px 0px rgba(0, 0, 0, 0.12);
@@ -114,63 +114,85 @@ body {
 
   .ant-card {
     .ant-card-head {
-      min-height: 40px !important;
+      min-height: 32px !important;
       border-bottom-color: rgba(240, 240, 240, 1);
-
       .ant-card-head-title {
-        font-weight: bold;
+        padding: 6px 0;
       }
-
-      .ant-card-extra {
-        padding: 8px 0;
-      }
+      .ant-card-head-wrapper{
+        height: 32px;
+        .ant-card-head-title {
+          font-weight: bold;
+          font-size: 12px;
+        }
+        .ant-card-extra{
+          padding: 8px 0;
+          font-size: 12px;
+        }
+      };
+    }
+    .ant-card-body {
+      padding-top: 8px;
+      padding-bottom: 8px;
     }
   }
 
-  .ant-tabs.ant-tabs-card {
-    .ant-tabs-card-bar {
-      .ant-tabs-tab {
-        height: 28px;
-        line-height: 28px;
-        width: 144px;
-        border: 0px;
-        background-color: red;
-        padding: 0 12px;
-
-        .ant-tabs-tab-unclosable {
-          height: 28px;
-          line-height: 28px;
+.ant-form{
+  .ant-row .ant-form-item{
+    .ant-form-item-lable{
+      line-height: 24px;
+      padding: 0px;
+    }
+    .ant-form-item-control-wrapper {
+      .ant-form-item-control {
+        line-height: 32px;
+        .ant-calender-picker-input.ant-input{
+          line-height: 14px;
         }
-
-        i.ant-tabs-close-x {
-          right: 8px;
-          top: 8px;
-          position: absolute;
+        .ant-calendar-picker-clear, .ant-calendar-picker-icon{
+          right: 4px;
         }
       }
     }
+  }
+}
 
+  .ant-tabs {
     .ant-tabs-bar {
-      border-bottom: 1px solid rgb(240, 242, 245);
+      margin: 0px 10px;
+      border-bottom: 1px solid rgb(240,242,245);
+      .ant-tabs-nav-container{
+        .ant-tabs-nav-warp{
+          .ant-tabs-tab.ant-tabs-tab-active{
+            background-color: rgba(255,255,255,1)
+          }
+          .ant-tabs-tab{
+            i.ant-tabs-close-x{
+              right: 8px;
+              top: 8px;
+              position: absolute;
+            }
+            height: 28px;
+            line-height: 28px;
+            width:144px;
+            border: 0px;
+            background-color: rgba(224,231,240,1);
+            padding: 0 12px;
+            .ant-tabs-tab-unclosable{
+              height: 28px;
+              line-height: 28px;
+            }
+          }
+        }
+      }
+      .ant-tabs-content{
+        padding-top: 0px
+      }
     }
   }
-}
-
-::-webkit-scrollbar {
-  width: 10px !important;
-  height: 10px !important;
-}
-
-::-webkit-scrollbar-thumb {
-  border-radius: 5px;
-  box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
-  -webkit-box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
-  background: rgba(0, 0, 0, 0.2);
-}
-
-::-webkit-scrollbar-track {
-  box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
-  -webkit-box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
-  border-radius: 0;
-  background: rgba(0, 0, 0, 0.1);
+  .ant-calender-picker{
+    .ant-calendar-range-picker-input{
+      font-size: 12px
+    }
+  }
 }

@@ -1,22 +1,31 @@
 /*
  * @Author: objectivezt
  * @Date: 2018-09-05 17:34:43
- * @Last Modified by:   objectivezt
- * @Last Modified time: 2020-08-04 17:34:43
+ * @Last Modified by: objectivezt
+ * @Last Modified time: 2020-10-18 21:19:24
  */
 import request from '@utils/request';
 
-// 获取菜单
+/**
+ * @description 获取菜单
+ * @method GET user/queryCurrentMenus
+ */
 export function queryMenus() {
   return request('user/queryCurrentMenus');
 }
 
-// 获取按钮
+/**
+ * @description 获取按钮
+ * @method GET user/queryCurrentButtons
+ */
 export function queryButtons() {
   return request('user/queryCurrentButtons');
 }
 
-// 获取当前用户
+/**
+ * @description 查询当前用户
+ * @method GET api/um/queryCurrentUser
+ */
 export function queryCurrentUser() {
-  return request('user/queryCurrentUser');
+  return request('api/um/queryCurrentUser');
 }

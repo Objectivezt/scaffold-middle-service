@@ -1,8 +1,8 @@
 /*
  * @Author: objectivezt
  * @Date: 2018-09-05 17:36:35
- * @Last Modified by:   objectivezt
- * @Last Modified time: 2020-08-04 17:36:35
+ * @Last Modified by: objectivezt
+ * @Last Modified time: 2020-10-18 21:11:18
  */
 import React, { Component } from 'react';
 import Login from '@components/Login';
@@ -170,7 +170,7 @@ export default class LoginPage extends Component {
     return (
       <div className={styles.main}>
         <Login defaultActiveKey={type} onTabChange={this.onTabChange} onSubmit={this.handleSubmit}>
-          <Tab key="account" tab={<span>登录123123</span>}>
+          <Tab key="account" tab={<span>登录</span>}>
             <UserName name="userName" placeholder="用户名" />
             <Password name="password" placeholder="密码" />
             {validCode ? (
